@@ -1,1 +1,117 @@
-Dummy content for backlog_health.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Backlog Health</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f8fc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      color: #003366;
+    }
+    .team-box {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+    }
+    .stoplight {
+      height: 60px;
+      vertical-align: middle;
+    }
+    .status-table {
+      margin-top: 10px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .status-table th, .status-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 0.85em;
+      color: #444;
+      text-align: center;
+    }
+    select {
+      margin-bottom: 20px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <label for="page-nav"><strong>Navigate:</strong></label>
+  <select id="page-nav" onchange="location = this.value;">
+    <option value="index.html">Program Summary</option>
+    <option value="sprint_readiness.html">Sprint Readiness</option>
+    <option value="backlog_health.html">Backlog Health</option>
+    <option value="dependencies.html">Dependencies</option>
+  </select>
+  <h1>Backlog Health</h1>
+
+<p>This report shows how well-groomed the product backlog is for each team. 
+It includes all story tickets <strong>not in open sprints</strong>, excluding Done/Blocked/Canceled. 
+Tickets in <strong>New</strong>, <strong>Grooming</strong>, <strong>Backlog</strong>, or 
+<strong>Ready for Development</strong> count toward backlog health.</p>
+
+        <div class="team-box">
+          <h2>Engineering - Product</h2>
+          <p><strong>Backlog Health:</strong> -3.2%</p>
+          <img src="blinking_red.gif" class="stoplight" alt="-3.2%">
+          <table class="status-table">
+            <tr><th>Status</th><th>Count</th></tr>
+        <tr><td>Done</td><td>1</td></tr><tr><td>To Do</td><td>31</td></tr></table></div>
+        <div class="team-box">
+          <h2>Design</h2>
+          <p><strong>Backlog Health:</strong> -16.7%</p>
+          <img src="blinking_red.gif" class="stoplight" alt="-16.7%">
+          <table class="status-table">
+            <tr><th>Status</th><th>Count</th></tr>
+        <tr><td>In Progress</td><td>1</td></tr><tr><td>To Do</td><td>6</td></tr></table></div>
+        <div class="team-box">
+          <h2>Engineering - AI Ops</h2>
+          <p><strong>Backlog Health:</strong> -12.5%</p>
+          <img src="blinking_red.gif" class="stoplight" alt="-12.5%">
+          <table class="status-table">
+            <tr><th>Status</th><th>Count</th></tr>
+        <tr><td>Done</td><td>1</td></tr><tr><td>To Do</td><td>8</td></tr></table></div>
+        <div class="team-box">
+          <h2>Engineering - Platform</h2>
+          <p><strong>Backlog Health:</strong> 0.0%</p>
+          <img src="blinking_red.gif" class="stoplight" alt="0.0%">
+          <table class="status-table">
+            <tr><th>Status</th><th>Count</th></tr>
+        <tr><td>To Do</td><td>3</td></tr></table></div>
+        <div class="team-box">
+          <h2>Data Science</h2>
+          <p><strong>Backlog Health:</strong> 0.0%</p>
+          <img src="blinking_red.gif" class="stoplight" alt="0.0%">
+          <table class="status-table">
+            <tr><th>Status</th><th>Count</th></tr>
+        <tr><td>To Do</td><td>5</td></tr></table></div>
+  <div class="footer">
+    <p><strong>References:</strong> <a href="https://www.scrum.org/resources/what-is-a-sprint-planning-meeting-in-scrum">Scrum.org: Sprint Planning</a> |
+    <a href="https://scaledagileframework.com/pi-planning/">SAFe PI Planning</a> |
+    <a href="https://www.mountaingoatsoftware.com/agile/user-stories">Mountain Goat Software: Agile Stories</a></p>
+    <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
+  </div>
+</div>
+</body>
+</html>

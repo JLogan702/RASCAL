@@ -1,1 +1,91 @@
-Dummy content for render_data.json
+{
+  "sprint_readiness": {
+    "Engineering - Product": {
+      "total": 30,
+      "valid": 30,
+      "percent": 100.0,
+      "statuses": {
+        "To Do": 30
+      },
+      "light": "blinking_green.gif"
+    },
+    "Design": {
+      "total": 5,
+      "valid": 4,
+      "percent": 80.0,
+      "statuses": {
+        "In Progress": 1,
+        "To Do": 5
+      },
+      "light": "blinking_green.gif"
+    },
+    "Engineering - AI Ops": {
+      "total": 7,
+      "valid": 7,
+      "percent": 100.0,
+      "statuses": {
+        "To Do": 7
+      },
+      "light": "blinking_green.gif"
+    },
+    "Data Science": {
+      "total": 5,
+      "valid": 5,
+      "percent": 100.0,
+      "statuses": {
+        "To Do": 5
+      },
+      "light": "blinking_green.gif"
+    }
+  },
+  "backlog_health": {
+    "Engineering - Product": {
+      "total": 31,
+      "valid": -1,
+      "percent": -3.2,
+      "statuses": {
+        "Done": 1,
+        "To Do": 31
+      },
+      "light": "blinking_red.gif"
+    },
+    "Design": {
+      "total": 6,
+      "valid": -1,
+      "percent": -16.7,
+      "statuses": {
+        "In Progress": 1,
+        "To Do": 6
+      },
+      "light": "blinking_red.gif"
+    },
+    "Engineering - AI Ops": {
+      "total": 8,
+      "valid": -1,
+      "percent": -12.5,
+      "statuses": {
+        "Done": 1,
+        "To Do": 8
+      },
+      "light": "blinking_red.gif"
+    },
+    "Engineering - Platform": {
+      "total": 3,
+      "valid": 0,
+      "percent": 0.0,
+      "statuses": {
+        "To Do": 3
+      },
+      "light": "blinking_red.gif"
+    },
+    "Data Science": {
+      "total": 5,
+      "valid": 0,
+      "percent": 0.0,
+      "statuses": {
+        "To Do": 5
+      },
+      "light": "blinking_red.gif"
+    }
+  }
+}

@@ -1,1 +1,83 @@
-Dummy content for dependencies.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dependencies</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f8fc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      color: #003366;
+    }
+    .team-box {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+    }
+    .stoplight {
+      height: 60px;
+      vertical-align: middle;
+    }
+    .status-table {
+      margin-top: 10px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .status-table th, .status-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 0.85em;
+      color: #444;
+      text-align: center;
+    }
+    select {
+      margin-bottom: 20px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <label for="page-nav"><strong>Navigate:</strong></label>
+  <select id="page-nav" onchange="location = this.value;">
+    <option value="index.html">Program Summary</option>
+    <option value="sprint_readiness.html">Sprint Readiness</option>
+    <option value="backlog_health.html">Backlog Health</option>
+    <option value="dependencies.html">Dependencies</option>
+  </select>
+  <h1>Dependencies</h1>
+
+<p>This section will eventually track cross-team dependencies such as "blocks" or "is blocked by" relationships across Jira tickets.</p>
+
+<p>To populate this view, ensure your data includes columns such as <strong>'Inward issue link (Blocks)'</strong> and <strong>'Outward issue link (Blocks)'</strong>.</p>
+
+<p>If dependencies are provided in a structured format, we will visualize them here with a matrix or timeline chart.</p>
+
+  <div class="footer">
+    <p><strong>References:</strong> <a href="https://www.scrum.org/resources/what-is-a-sprint-planning-meeting-in-scrum">Scrum.org: Sprint Planning</a> |
+    <a href="https://scaledagileframework.com/pi-planning/">SAFe PI Planning</a> |
+    <a href="https://www.mountaingoatsoftware.com/agile/user-stories">Mountain Goat Software: Agile Stories</a></p>
+    <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
+  </div>
+</div>
+</body>
+</html>
