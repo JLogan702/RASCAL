@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Program Summary</title>
+    <style>
+        body {
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #00334e;
+            padding: 1em;
+        }
+        .navbar select {
+            padding: 0.5em;
+            font-size: 1em;
+        }
+        .container {
+            padding: 2em;
+        }
+        .card {
+            background: #ffffff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .stoplight {
+            display: flex;
+            align-items: center;
+            margin-top: 2em;
+        }
+        .stoplight img {
+            width: 40px;
+            height: auto;
+            margin-right: 0.5em;
+        }
+        .references {
+            margin-top: 4em;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <label style="color: white;">Navigate: </label>
+        <select onchange="location = this.value;">
+            <option value="index.html">Program Summary</option>
+            <option value="sprint_readiness.html">Sprint Readiness</option>
+            <option value="backlog_health.html">Backlog Health</option>
+            <option value="dependencies.html">Dependencies</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1>Program Summary</h1>
+            <p>This page provides a snapshot of overall program health by combining Sprint Readiness and Backlog Health scores from all teams.</p>
+            <p>The stoplight indicator below reflects the average of these two metrics:</p>
+
+            <div class="stoplight">
+                <img src="blinking_green.gif" alt="Green stoplight">
+                <span>Green – Overall program health is on track.</span>
+            </div>
+
+            <p>Calculated using:
+            <ul>
+                <li><strong>Sprint Readiness</strong>: % of story tickets in future sprints that are in 'To Do' or 'Ready for Development'</li>
+                <li><strong>Backlog Health</strong>: % of story tickets in backlog statuses ('New', 'Grooming') assigned to future sprints</li>
+            </ul>
+            </p>
+
+            <p><strong>Scoring thresholds:</strong></p>
+            <ul>
+                <li><strong>Green:</strong> ≥ 80%</li>
+                <li><strong>Yellow:</strong> 50% – 79%</li>
+                <li><strong>Red:</strong> &lt; 50%</li>
+            </ul>
+        </div>
+
+        <div class="references">
+            <strong>References:</strong>
+            <a href="https://www.scrum.org/resources/sprint-planning" target="_blank">Scrum.org: Sprint Planning</a> |
+            <a href="https://scaledagileframework.com/pi-planning/" target="_blank">SAFe PI Planning</a> |
+            <a href="https://www.mountaingoatsoftware.com/agile/user-stories" target="_blank">Mountain Goat Software: Agile Stories</a>
+            <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
+        </div>
+    </div>
+</body>
+</html>
