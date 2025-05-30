@@ -2,110 +2,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sprint Readiness</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f8fc;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      color: #003366;
-    }
-    .team-box {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 90%;
-    }
-    .stoplight {
-      height: 60px;
-      vertical-align: middle;
-    }
-    .status-table {
-      margin-top: 10px;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    .status-table th, .status-table td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      text-align: left;
-    }
-    .footer {
-      margin-top: 40px;
-      font-size: 0.85em;
-      color: #444;
-      text-align: center;
-    }
-    select {
-      margin-bottom: 20px;
-      padding: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Sprint Readiness</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6fa; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; }
+        .team-box { width: 48%; background: #eef3fb; padding: 20px; margin: 1%; display: inline-block; vertical-align: top; border-radius: 8px; }
+        .dropdown { margin-bottom: 20px; }
+        .stoplight { height: 100px; }
+        .footer { margin-top: 40px; font-size: 0.9em; text-align: center; }
+        .chart-img { width: 100%; max-width: 300px; display: block; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #e6efff; }
+    </style>
 </head>
 <body>
-<div class="container">
-  <label for="page-nav"><strong>Navigate:</strong></label>
-  <select id="page-nav" onchange="location = this.value;">
-    <option value="index.html">Program Summary</option>
-    <option value="sprint_readiness.html">Sprint Readiness</option>
-    <option value="backlog_health.html">Backlog Health</option>
-    <option value="dependencies.html">Dependencies</option>
-  </select>
-  <h1>Sprint Readiness</h1>
-
-<p>This report shows how prepared each team is for future sprints. 
-Only story-type tickets assigned to <strong>future sprints</strong> are included, and we calculate readiness based on tickets in 
-<strong>Ready for Development</strong> or <strong>To Do</strong> status. 
-This follows Agile standards outlined by Scrum.org, SAFe, and Mountain Goat Software. 
-All tickets are shown below, including those that do not count toward readiness.</p>
-
-        <div class="team-box">
-          <h2>Engineering - Product</h2>
-          <p><strong>Sprint Readiness:</strong> 100.0%</p>
-          <img src="blinking_green.gif" class="stoplight" alt="100.0%">
-          <table class="status-table">
+    <div class="dropdown">
+        <label for="nav">Navigate:</label>
+        <select id="nav" onchange="location = this.value;">
+            <option value="index.html" >Program Summary</option>
+            <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+            <option value="backlog_health.html" >Backlog Health</option>
+            <option value="dependencies.html" >Dependencies</option>
+        </select>
+    </div>
+    <div class="container">
+        <h1>Sprint Readiness</h1>
+        <p>This page evaluates how prepared teams are for future sprint work, based on Agile best practices including those from Scrum.org, SAFe, and Mountain Goat Software. Only story tickets assigned to future sprints and marked as ‘Ready for Development’ or ‘To Do’ are considered 'ready'.</p>
+    <div class="team-box">
+        <h2>Engineering - Platform</h2>
+        <img src="blinking_red.gif" class="stoplight" alt="stoplight">
+        <p><strong>0%</strong> of 0 story tickets in upcoming sprints are ready.</p>
+        <table>
             <tr><th>Status</th><th>Count</th></tr>
-        <tr><td>To Do</td><td>30</td></tr></table></div>
-        <div class="team-box">
-          <h2>Design</h2>
-          <p><strong>Sprint Readiness:</strong> 80.0%</p>
-          <img src="blinking_green.gif" class="stoplight" alt="80.0%">
-          <table class="status-table">
+    <tr><td>New</td><td>0</td></tr><tr><td>Ready for Development</td><td>0</td></tr><tr><td>Grooming</td><td>0</td></tr></table></div>
+    <div class="team-box">
+        <h2>Engineering - Product</h2>
+        <img src="blinking_red.gif" class="stoplight" alt="stoplight">
+        <p><strong>10.3%</strong> of 29 story tickets in upcoming sprints are ready.</p>
+        <table>
             <tr><th>Status</th><th>Count</th></tr>
-        <tr><td>In Progress</td><td>1</td></tr><tr><td>To Do</td><td>5</td></tr></table></div>
-        <div class="team-box">
-          <h2>Engineering - AI Ops</h2>
-          <p><strong>Sprint Readiness:</strong> 100.0%</p>
-          <img src="blinking_green.gif" class="stoplight" alt="100.0%">
-          <table class="status-table">
+    <tr><td>New</td><td>14</td></tr><tr><td>Ready for Development</td><td>3</td></tr><tr><td>Grooming</td><td>12</td></tr></table></div>
+    <div class="team-box">
+        <h2>Design</h2>
+        <img src="blinking_red.gif" class="stoplight" alt="stoplight">
+        <p><strong>0.0%</strong> of 3 story tickets in upcoming sprints are ready.</p>
+        <table>
             <tr><th>Status</th><th>Count</th></tr>
-        <tr><td>To Do</td><td>7</td></tr></table></div>
-        <div class="team-box">
-          <h2>Data Science</h2>
-          <p><strong>Sprint Readiness:</strong> 100.0%</p>
-          <img src="blinking_green.gif" class="stoplight" alt="100.0%">
-          <table class="status-table">
+    <tr><td>New</td><td>3</td></tr><tr><td>Ready for Development</td><td>0</td></tr><tr><td>Grooming</td><td>0</td></tr></table></div>
+    <div class="team-box">
+        <h2>Engineering - AI Ops</h2>
+        <img src="blinking_red.gif" class="stoplight" alt="stoplight">
+        <p><strong>0.0%</strong> of 5 story tickets in upcoming sprints are ready.</p>
+        <table>
             <tr><th>Status</th><th>Count</th></tr>
-        <tr><td>To Do</td><td>5</td></tr></table></div>
-  <div class="footer">
-    <p><strong>References:</strong> <a href="https://www.scrum.org/resources/what-is-a-sprint-planning-meeting-in-scrum">Scrum.org: Sprint Planning</a> |
-    <a href="https://scaledagileframework.com/pi-planning/">SAFe PI Planning</a> |
-    <a href="https://www.mountaingoatsoftware.com/agile/user-stories">Mountain Goat Software: Agile Stories</a></p>
-    <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
-  </div>
-</div>
+    <tr><td>New</td><td>5</td></tr><tr><td>Ready for Development</td><td>0</td></tr><tr><td>Grooming</td><td>0</td></tr></table></div>
+    <div class="team-box">
+        <h2>Data Science</h2>
+        <img src="blinking_red.gif" class="stoplight" alt="stoplight">
+        <p><strong>0%</strong> of 0 story tickets in upcoming sprints are ready.</p>
+        <table>
+            <tr><th>Status</th><th>Count</th></tr>
+    <tr><td>New</td><td>0</td></tr><tr><td>Ready for Development</td><td>0</td></tr><tr><td>Grooming</td><td>0</td></tr></table></div>
+    </div>
+    <div class="footer">
+        <p><strong>References:</strong>
+        <a href="https://www.scrum.org/resources/sprint-planning" target="_blank">Scrum.org: Sprint Planning</a> |
+        <a href="https://scaledagileframework.com/pi-planning/" target="_blank">SAFe PI Planning</a> |
+        <a href="https://www.mountaingoatsoftware.com/agile/user-stories" target="_blank">Mountain Goat Software: Agile Stories</a></p>
+        <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
+    </div>
 </body>
 </html>

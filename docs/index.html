@@ -2,100 +2,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Program Summary</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f8fc;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      color: #003366;
-    }
-    .team-box {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 90%;
-    }
-    .stoplight {
-      height: 60px;
-      vertical-align: middle;
-    }
-    .status-table {
-      margin-top: 10px;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    .status-table th, .status-table td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      text-align: left;
-    }
-    .footer {
-      margin-top: 40px;
-      font-size: 0.85em;
-      color: #444;
-      text-align: center;
-    }
-    select {
-      margin-bottom: 20px;
-      padding: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Program Summary</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6fa; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; }
+        .team-box { width: 48%; background: #eef3fb; padding: 20px; margin: 1%; display: inline-block; vertical-align: top; border-radius: 8px; }
+        .dropdown { margin-bottom: 20px; }
+        .stoplight { height: 100px; }
+        .footer { margin-top: 40px; font-size: 0.9em; text-align: center; }
+        .chart-img { width: 100%; max-width: 300px; display: block; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #e6efff; }
+    </style>
 </head>
 <body>
-<div class="container">
-  <label for="page-nav"><strong>Navigate:</strong></label>
-  <select id="page-nav" onchange="location = this.value;">
-    <option value="index.html">Program Summary</option>
-    <option value="sprint_readiness.html">Sprint Readiness</option>
-    <option value="backlog_health.html">Backlog Health</option>
-    <option value="dependencies.html">Dependencies</option>
-  </select>
-  <h1>Program Summary</h1>
-
-<p>This page provides a snapshot of overall program health by combining Sprint Readiness and Backlog Health scores from all teams.</p>
-
+    <div class="dropdown">
+        <label for="nav">Navigate:</label>
+        <select id="nav" onchange="location = this.value;">
+            <option value="index.html" selected>Program Summary</option>
+            <option value="sprint_readiness.html" >Sprint Readiness</option>
+            <option value="backlog_health.html" >Backlog Health</option>
+            <option value="dependencies.html" >Dependencies</option>
+        </select>
+    </div>
+    <div class="container">
+        <h1>Program Summary</h1>
+        
+<p>This page provides a snapshot of overall program health by combining Sprint Readiness and Backlog Health scores across all teams.</p>
 <p>The stoplight indicator below reflects the average of these two metrics:</p>
 
-<img src="blinking_red.gif" class="stoplight" alt="44.3%">
-<p><strong>44.3% – Overall program health is calculated and color-coded accordingly.</strong></p>
+<img src="blinking_yellow.gif" class="stoplight" alt="stoplight">
+<p><strong>51.0%</strong> — Overall program health is on track based on readiness and backlog pipeline coverage.</p>
 
-<h3>How It’s Calculated</h3>
+<h3>Calculated using:</h3>
 <ul>
-  <li><strong>Sprint Readiness</strong>: % of story tickets in future sprints that are in 'To Do' or 'Ready for Development'</li>
-  <li><strong>Backlog Health</strong>: % of story tickets in backlog statuses ('New', 'Grooming', 'Backlog', 'Ready for Development') assigned to non-active sprints</li>
+<li><strong>Sprint Readiness:</strong> % of story tickets in future sprints that are in 'To Do' or 'Ready for Development'</li>
+<li><strong>Backlog Health:</strong> % of story tickets in backlog statuses (‘New’, ‘Grooming’, ‘Backlog’, ‘Ready for Development’), excluding any completed or sprinted items</li>
 </ul>
 
-<h3>Scoring thresholds</h3>
+<h3>Scoring thresholds:</h3>
 <ul>
-  <li><strong>Green</strong>: ≥ 80%</li>
-  <li><strong>Yellow</strong>: 50% – 79%</li>
-  <li><strong>Red</strong>: &lt; 50%</li>
+<li><strong>Green:</strong> ≥ 80%</li>
+<li><strong>Yellow:</strong> 50% – 79%</li>
+<li><strong>Red:</strong> &lt; 50%</li>
 </ul>
 
-<h3>Purpose</h3>
-<p>This dashboard is not meant to punish or evaluate individual performance. It exists to highlight where teams might need support, ensure readiness across the organization, and help teams spot trends early. 
-This is a tool to <strong>empower teams</strong> to succeed—not to judge them.</p>
+<p><em>Note:</em> This dashboard is a tool for teams — not a judgment. It highlights where support may be needed and fosters visibility, coordination, and better delivery forecasting.</p>
 
-  <div class="footer">
-    <p><strong>References:</strong> <a href="https://www.scrum.org/resources/what-is-a-sprint-planning-meeting-in-scrum">Scrum.org: Sprint Planning</a> |
-    <a href="https://scaledagileframework.com/pi-planning/">SAFe PI Planning</a> |
-    <a href="https://www.mountaingoatsoftware.com/agile/user-stories">Mountain Goat Software: Agile Stories</a></p>
-    <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
-  </div>
-</div>
+    </div>
+    <div class="footer">
+        <p><strong>References:</strong>
+        <a href="https://www.scrum.org/resources/sprint-planning" target="_blank">Scrum.org: Sprint Planning</a> |
+        <a href="https://scaledagileframework.com/pi-planning/" target="_blank">SAFe PI Planning</a> |
+        <a href="https://www.mountaingoatsoftware.com/agile/user-stories" target="_blank">Mountain Goat Software: Agile Stories</a></p>
+        <p>This dashboard follows Agile reporting best practices to ensure visibility, accountability, and readiness across teams.</p>
+    </div>
 </body>
 </html>
