@@ -1,0 +1,103 @@
+{
+  "readiness": [
+    {
+      "team": "Engineering - Platform",
+      "total": 3,
+      "ready": 0,
+      "pct": 0.0,
+      "stoplight": "red"
+    },
+    {
+      "team": "Engineering - Product",
+      "total": 32,
+      "ready": 5,
+      "pct": 15.6,
+      "stoplight": "red"
+    },
+    {
+      "team": "Design",
+      "total": 7,
+      "ready": 3,
+      "pct": 42.9,
+      "stoplight": "red"
+    },
+    {
+      "team": "Engineering - AI Ops",
+      "total": 7,
+      "ready": 2,
+      "pct": 28.6,
+      "stoplight": "red"
+    },
+    {
+      "team": "Data Science",
+      "total": 0,
+      "ready": 0,
+      "pct": 0,
+      "stoplight": "red"
+    }
+  ],
+  "backlog": [
+    {
+      "team": "Engineering - Platform",
+      "total": 23,
+      "groomed": 7,
+      "pct": 30.4,
+      "stoplight": "red"
+    },
+    {
+      "team": "Engineering - Product",
+      "total": 17,
+      "groomed": 16,
+      "pct": 94.1,
+      "stoplight": "green"
+    },
+    {
+      "team": "Design",
+      "total": 13,
+      "groomed": 4,
+      "pct": 30.8,
+      "stoplight": "red"
+    },
+    {
+      "team": "Engineering - AI Ops",
+      "total": 6,
+      "groomed": 1,
+      "pct": 16.7,
+      "stoplight": "red"
+    },
+    {
+      "team": "Data Science",
+      "total": 18,
+      "groomed": 1,
+      "pct": 5.6,
+      "stoplight": "red"
+    }
+  ],
+  "dependencies": [
+    {
+      "team": "Engineering - Platform",
+      "blocking": 0,
+      "blocked_by": 0
+    },
+    {
+      "team": "Engineering - Product",
+      "blocking": 1,
+      "blocked_by": 1
+    },
+    {
+      "team": "Design",
+      "blocking": 0,
+      "blocked_by": 0
+    },
+    {
+      "team": "Engineering - AI Ops",
+      "blocking": 0,
+      "blocked_by": 0
+    },
+    {
+      "team": "Data Science",
+      "blocking": 0,
+      "blocked_by": 2
+    }
+  ]
+}
