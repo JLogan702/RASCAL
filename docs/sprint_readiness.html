@@ -1,48 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sprint Readiness – RASCAL</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-</head>
-<body class="dashboard-page">
-  <header>
-    <div class="dropdown">
-      <button class="dropbtn">Navigate</button>
-      <div class="dropdown-content">
-        <a href="index.html">Program Summary</a>
-        <a href="sprint_readiness.html" class="active">Sprint Readiness</a>
-        <a href="backlog_health.html">Backlog Health</a>
-        <a href="dependencies.html">Dependency Tracker</a>
-      </div>
-    </div>
-    <h1>Sprint Readiness</h1>
-    <p class="page-description">
-      Sprint Readiness is based on story tickets assigned to future sprints that are in 'To Do' or 'Ready for Development' status.<br>
-      Statuses like 'In Progress', 'Done', or 'Blocked' are excluded. Stoplights reflect readiness % per team.
-    </p>
-  </header>
+import pandas as pd
+import json
 
-  <main id="sprint-readiness-container" class="team-grid"></main>
+# Load CSV
+df = pd.read_csv("jira_data.csv")
 
-  <footer>
-    <p>Source: Jira project filtered by component and sprint status. Based on Agile sprint planning best practices (<a href="https://www.scrum.org/resources/what-is-sprint-planning" target="_blank">Scrum.org</a>).</p>
-    <p class="timestamp" id="timestamp"></p>
-  </footer>
+# Clean column names
+df.columns = [col.strip() for col in df.columns]
 
-  <script src="dashboard_logic.js"></script>
-  <script>
-    fetch("render_data.json")
-      .then(res => res.json())
-      .then(data => {
-        renderSprintReadiness(data);
-        document.getElementById("timestamp").textContent = `Last updated: ${new Date().toLocaleString()}`;
-      });
-  </script>
-</body>
-</html>
+# Filter for story tickets that are in a future sprint
+story_df = df[
+    (df["Issue Type"] == "Story") &
+    (df["Status"].isin(["To Do", "Ready for Development", "New", "Grooming"])) &
+    (df["Sprint"].notnull()) &
+    (~df["Sprint"].str.contains("state=ACTIVE", na=False)) &
+    (df["Status"] != "Done")
+]
+
+# Map components to teams
+team_names = [
+    "Engineering - Product",
+    "Engineering - Platform",
+    "Engineering - AI Ops",
+    "Design",
+    "Data Science"
+]
+
+sprint_data = {}
+
+for team in team_names:
+    team_df = story_df[story_df["Components"].str.contains(team, na=False)]
+
+    status_counts = team_df["Status"].value_counts().to_dict()
+
+    ready_count = sum([status_counts.get(status, 0) for status in ["To Do", "Ready for Development"]])
+    total_count = sum(status_counts.values())
+
+    readiness = (ready_count / total_count) * 100 if total_count > 0 else 0
+
+    if readiness >= 80:
+        stoplight = "green"
+    elif readiness >= 50:
+        stoplight = "yellow"
+    else:
+        stoplight = "red"
+
+    sprint_data[team] = {
+        "status_counts": status_counts,
+        "ready_count": ready_count,
+        "total_count": total_count,
+        "readiness_percent": round(readiness, 2),
+        "stoplight": stoplight
+    }
+
+# Final JSON structure
+output = {
+    "sprint_readiness": sprint_data
+}
+
+# Write to render_data.json (append or update existing)
+with open("docs/render_data.json", "r") as infile:
+    full_data = json.load(infile)
+
+full_data["sprint_readiness"] = output["sprint_readiness"]
+
+with open("docs/render_data.json", "w") as outfile:
+    json.dump(full_data, outfile, indent=2)
+
+print("✅ Sprint readiness data updated successfully.")
 
