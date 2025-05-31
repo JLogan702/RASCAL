@@ -1,175 +1,97 @@
-/* Global Styles */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
+  font-family: Arial, sans-serif;
+  background-color: #f2f7fa;
   margin: 0;
   padding: 0;
 }
 
-header {
-  background-color: #264653;
-  color: #fff;
+header, footer {
+  background-color: #003366;
+  color: white;
   padding: 1rem;
   text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-nav {
-  background-color: #2a9d8f;
-  padding: 0.5rem;
-  text-align: center;
-}
-
-nav select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: none;
 }
 
 main {
-  padding: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
+  padding: 1rem 2rem;
 }
 
-/* Team Cards */
-.team-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
-  width: 300px;
+h1 {
   text-align: center;
-  transition: transform 0.2s ease-in-out;
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 1.5rem;
 }
 
-.team-card:hover {
-  transform: scale(1.02);
-}
-
-.team-card h3 {
-  margin-top: 0;
-  font-size: 1.25rem;
-  color: #264653;
-}
-
-.stoplight-img {
-  width: 50px;
-  height: auto;
-  margin: 0.75rem 0;
-}
-
-/* Breakdown List */
-.status-list h4 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #2a9d8f;
-}
-
-.status-list ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-}
-
-.status-list li {
-  margin-bottom: 0.3rem;
-  font-size: 0.95rem;
-}
-
-/* Footnote */
-.footnote {
-  font-size: 0.75rem;
-  color: #888;
-  margin-top: 0.75rem;
-}
-
-/* Explanation Highlight */
-.explanation-box {
-  background-color: #e9f5f2;
-  border-left: 6px solid #2a9d8f;
-  padding: 1rem;
-  margin: 2rem auto;
-  max-width: 800px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-/* Page Title Styling */
-h1, h2 {
-  text-align: center;
-  color: #264653;
-}
-
-h2 {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-}
-
-/* Print Styling */
-@media print {
-  nav, .footnote {
-    display: none;
-  }
-
-  .team-card {
-    page-break-inside: avoid;
-  }
-}
-
-.dependency-container {
-  margin-top: 2rem;
-  padding: 1rem;
-  background-color: #f4f6ff;
-  border-radius: 8px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
-}
-
-.dependency-table {
+.chart-container {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  font-size: 0.95rem;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.dependency-table thead {
-  background-color: #e0e7ff;
-}
-
-.dependency-table th,
-.dependency-table td {
-  padding: 12px;
-  border: 1px solid #d0d7e5;
-  text-align: left;
-}
-
-.dependency-table td:first-child {
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.dependency-table tr:hover {
-  background-color: #f0f4ff;
-}
-
-.explanation-box {
-  background-color: #eef4fb;
-  padding: 1rem 1.5rem;
-  border-left: 5px solid #007acc;
-  border-radius: 5px;
+.team-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
-.explanation-box strong {
+.team-box {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stoplight {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+
+.status-table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+.status-table th,
+.status-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.status-table th {
+  background-color: #003366;
+  color: white;
+}
+
+.status-table td {
+  background-color: #f9f9f9;
+}
+
+.explanation {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.dropdown-nav {
   display: block;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  width: fit-content;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+footer {
+  font-size: 0.85rem;
+  margin-top: 2rem;
 }
 
