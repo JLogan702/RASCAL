@@ -50,7 +50,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
       transition: box-shadow 0.3s ease;
     }
 
@@ -59,49 +59,55 @@
     }
 
     .team-box h3 {
-      text-align: center;
-      margin-bottom: 8px;
+      margin: 0;
     }
 
     .stoplight {
-      display: flex;
-      justify-content: center;
-      margin: 10px 0;
+      margin: 10px auto;
     }
 
     .stoplight img {
-      width: 36px;
+      width: 30px;
       height: auto;
     }
 
-    .key-metric {
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-align: center;
+    .metric-score {
+      font-size: 1.1rem;
+      margin: 8px 0 12px;
       color: #1a3f5f;
-      margin-top: 4px;
-      margin-bottom: 10px;
-    }
-
-    .status-table {
-      margin-top: 10px;
-      font-size: 0.88rem;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    .status-table th, .status-table td {
-      border: 1px solid #ccc;
-      padding: 4px 10px;
-    }
-
-    .status-table th {
-      background-color: #e7f5ff;
-    }
-
-    .highlight {
       font-weight: bold;
-      color: #2c3e50;
+    }
+
+    .status-summary {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px #ddd;
+    }
+
+    .status-summary table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .status-summary th, .status-summary td {
+      padding: 6px 10px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    .status-summary th {
+      background: #f1f9ff;
+    }
+
+    .ready {
+      background-color: #e8fbe8;
+    }
+
+    .not-ready {
+      background-color: #fff8e1;
     }
 
     .footer {
@@ -142,7 +148,7 @@
       <li>Assigned to a <strong>future sprint</strong></li>
       <li>In <strong>“To Do”</strong> or <strong>“Ready for Development”</strong> status</li>
     </ul>
-    <p>All statuses are shown per team for transparency, even if they don’t count toward readiness.</p>
+    <p>All statuses are shown per team below for transparency. Only those in green rows count toward readiness.</p>
   </div>
 
   <div id="readinessContainer" class="grid"></div>
