@@ -2,165 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sprint Readiness – RASCAL</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="print.css" media="print" />
-  <style>
-    body {
-      background-color: #f0f9ff;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      background: #cceeff;
-      padding: 10px;
-      z-index: 999;
-    }
-
-    .centered {
-      text-align: center;
-    }
-
-    .explanation {
-      max-width: 960px;
-      margin: 20px auto;
-      font-size: 1rem;
-      line-height: 1.5;
-      background: #ffffff;
-      padding: 16px;
-      border-left: 5px solid #007acc;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .team-box {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .team-box:hover {
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-    }
-
-    .team-box h3 {
-      margin: 0;
-    }
-
-    .stoplight {
-      margin: 10px auto;
-    }
-
-    .stoplight img {
-      width: 30px;
-      height: auto;
-    }
-
-    .metric-score {
-      font-size: 1.1rem;
-      margin: 8px 0 12px;
-      color: #1a3f5f;
-      font-weight: bold;
-    }
-
-    .status-summary {
-      width: 100%;
-      border-radius: 8px;
-      margin-top: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 0 1px #ddd;
-    }
-
-    .status-summary table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    .status-summary th, .status-summary td {
-      padding: 6px 10px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-
-    .status-summary th {
-      background: #f1f9ff;
-    }
-
-    .ready {
-      background-color: #e8fbe8;
-    }
-
-    .not-ready {
-      background-color: #fff8e1;
-    }
-
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #666;
-    }
-
-    @media print {
-      .navbar, select, img[src$=".gif"] {
-        display: none;
-      }
-      body {
-        background: #fff;
-        color: #000;
-      }
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
-<body>
-  <div class="navbar">
-    <select onchange="location = this.value;">
-      <option value="index.html">Program Summary</option>
-      <option value="sprint_readiness.html" selected>Sprint Readiness</option>
-      <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependency Tracker</option>
-    </select>
-  </div>
+<body class="dashboard-page">
+  <header>
+    <div class="dropdown">
+      <button class="dropbtn">Navigate</button>
+      <div class="dropdown-content">
+        <a href="index.html">Program Summary</a>
+        <a href="sprint_readiness.html" class="active">Sprint Readiness</a>
+        <a href="backlog_health.html">Backlog Health</a>
+        <a href="dependencies.html">Dependency Tracker</a>
+      </div>
+    </div>
+    <h1>Sprint Readiness</h1>
+    <p class="page-description">
+      Sprint Readiness is based on story tickets assigned to future sprints that are in 'To Do' or 'Ready for Development' status.<br>
+      Statuses like 'In Progress', 'Done', or 'Blocked' are excluded. Stoplights reflect readiness % per team.
+    </p>
+  </header>
 
-  <h1 class="centered">Sprint Readiness Dashboard</h1>
+  <main id="sprint-readiness-container" class="team-grid"></main>
 
-  <div class="explanation">
-    <p><strong>What is Sprint Readiness?</strong><br />
-    This metric shows how many story tickets are ready to be worked in the next sprint. Tickets must be:</p>
-    <ul>
-      <li><strong>Story-type</strong></li>
-      <li>Assigned to a <strong>future sprint</strong></li>
-      <li>In <strong>“To Do”</strong> or <strong>“Ready for Development”</strong> status</li>
-    </ul>
-    <p>All statuses are shown per team below for transparency. Only those in green rows count toward readiness.</p>
-  </div>
-
-  <div id="readinessContainer" class="grid"></div>
-
-  <div class="footer">
-    <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Source: <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org – What is a Sprint Backlog?</a></p>
-  </div>
+  <footer>
+    <p>Source: Jira project filtered by component and sprint status. Based on Agile sprint planning best practices (<a href="https://www.scrum.org/resources/what-is-sprint-planning" target="_blank">Scrum.org</a>).</p>
+    <p class="timestamp" id="timestamp"></p>
+  </footer>
 
   <script src="dashboard_logic.js"></script>
   <script>
-    loadDashboard("sprint_readiness");
+    fetch("render_data.json")
+      .then(res => res.json())
+      .then(data => {
+        renderSprintReadiness(data);
+        document.getElementById("timestamp").textContent = `Last updated: ${new Date().toLocaleString()}`;
+      });
   </script>
 </body>
 </html>
