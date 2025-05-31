@@ -1,97 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dependencies Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="print.css" media="print">
+    <meta charset="UTF-8">
+    <title>Dependencies by Team</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 2em;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        select {
+            margin: 10px auto;
+            display: block;
+            padding: 10px;
+            font-size: 16px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="dropdown">
-    <button class="dropbtn">Navigate</button>
-    <div class="dropdown-content">
-      <a href="index.html">Program Summary</a>
-      <a href="sprint_readiness.html">Sprint Readiness</a>
-      <a href="backlog_health.html">Backlog Health</a>
-      <a href="dependencies.html">Dependencies</a>
-    </div>
-  </div>
+    <h2>Dependencies by Team</h2>
+    <label for="teamFilter">Filter by Team:</label>
+    <select id="teamFilter" onchange="filterTable()">
+        <option value="all">All Teams</option>
+    </select>
 
-  <h1 class="center">Dependency Overview</h1>
+    <table id="dependencyTable">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Issue Key</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be injected by JS -->
+        </tbody>
+    </table>
 
-  <p class="explanation">This report highlights current Jira story ticket dependencies across teams. Story tickets are flagged if they are blocking another story or are being blocked. High counts of unresolved blockers may signal risks to delivery timelines. Use this dashboard to initiate unblocking discussions and address cross-team delivery concerns early.</p>
+    <script>
+        const dependencies = [
+            { team: "Engineering - Product", key: "BGP-101", summary: "Depends on UI refresh" },
+            { team: "Engineering - Platform", key: "BGP-102", summary: "Blocked by API limits" },
+            { team: "Data Science", key: "BGP-103", summary: "Dependent on data pipeline" },
+            { team: "Design", key: "BGP-104", summary: "Waiting for wireframes" },
+            { team: "Engineering - AI Ops", key: "BGP-105", summary: "Blocked by ML model approval" },
+            { team: "Data Science", key: "BGP-106", summary: "Requires DB schema change" }
+        ];
 
-  <div class="flex-container">
-    
-    <div class="team-box">
-      <h2>AI Ops</h2>
-      <img src="blinking_yellow.gif" class="stoplight" alt="yellow stoplight">
-      <ul>
-        <li><strong>Blocking:</strong> 18</li>
-        <li><strong>Blocked by:</strong> 18</li>
-        <li><strong>Total Dependencies:</strong> 36</li>
-      </ul>
-      <p class="team-explanation">
-        This count reflects how many story tickets in this team are either causing or experiencing delivery blocks. A high number of 'Blocked by' issues may warrant escalation.
-      </p>
-    </div>
-    
-    <div class="team-box">
-      <h2>Data Science</h2>
-      <img src="blinking_yellow.gif" class="stoplight" alt="yellow stoplight">
-      <ul>
-        <li><strong>Blocking:</strong> 18</li>
-        <li><strong>Blocked by:</strong> 18</li>
-        <li><strong>Total Dependencies:</strong> 36</li>
-      </ul>
-      <p class="team-explanation">
-        This count reflects how many story tickets in this team are either causing or experiencing delivery blocks. A high number of 'Blocked by' issues may warrant escalation.
-      </p>
-    </div>
-    
-    <div class="team-box">
-      <h2>Design</h2>
-      <img src="blinking_yellow.gif" class="stoplight" alt="yellow stoplight">
-      <ul>
-        <li><strong>Blocking:</strong> 20</li>
-        <li><strong>Blocked by:</strong> 20</li>
-        <li><strong>Total Dependencies:</strong> 40</li>
-      </ul>
-      <p class="team-explanation">
-        This count reflects how many story tickets in this team are either causing or experiencing delivery blocks. A high number of 'Blocked by' issues may warrant escalation.
-      </p>
-    </div>
-    
-    <div class="team-box">
-      <h2>Platform</h2>
-      <img src="blinking_yellow.gif" class="stoplight" alt="yellow stoplight">
-      <ul>
-        <li><strong>Blocking:</strong> 30</li>
-        <li><strong>Blocked by:</strong> 30</li>
-        <li><strong>Total Dependencies:</strong> 60</li>
-      </ul>
-      <p class="team-explanation">
-        This count reflects how many story tickets in this team are either causing or experiencing delivery blocks. A high number of 'Blocked by' issues may warrant escalation.
-      </p>
-    </div>
-    
-    <div class="team-box">
-      <h2>Product</h2>
-      <img src="blinking_yellow.gif" class="stoplight" alt="yellow stoplight">
-      <ul>
-        <li><strong>Blocking:</strong> 48</li>
-        <li><strong>Blocked by:</strong> 48</li>
-        <li><strong>Total Dependencies:</strong> 96</li>
-      </ul>
-      <p class="team-explanation">
-        This count reflects how many story tickets in this team are either causing or experiencing delivery blocks. A high number of 'Blocked by' issues may warrant escalation.
-      </p>
-    </div>
-    
-  </div>
+        const tableBody = document.querySelector("#dependencyTable tbody");
+        const filterDropdown = document.getElementById("teamFilter");
+        const uniqueTeams = [...new Set(dependencies.map(dep => dep.team))];
 
-  <footer>
-    <p class="footnote">Data derived from Jira fields: <em>Inward issue link (Blocks)</em> and <em>Outward issue link (Blocks)</em>. Report follows Agile dependency tracking best practices. See <a href="https://www.atlassian.com/agile/project-management/identify-dependencies">Atlassian: Managing Agile Dependencies</a>.</p>
-  </footer>
+        uniqueTeams.forEach(team => {
+            const option = document.createElement("option");
+            option.value = team;
+            option.textContent = team;
+            filterDropdown.appendChild(option);
+        });
+
+        function renderTable(filterTeam = "all") {
+            tableBody.innerHTML = "";
+            dependencies.forEach(dep => {
+                if (filterTeam === "all" || dep.team === filterTeam) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${dep.team}</td>
+                        <td>${dep.key}</td>
+                        <td>${dep.summary}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
+        }
+
+        function filterTable() {
+            const selectedTeam = filterDropdown.value;
+            renderTable(selectedTeam);
+        }
+
+        renderTable(); // Initialize
+    </script>
 </body>
 </html>
+
