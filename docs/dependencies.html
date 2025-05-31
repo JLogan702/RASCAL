@@ -8,6 +8,15 @@
   <style>
     body {
       background-color: #f5f5ff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #dde4fa;
+      padding: 10px;
+      z-index: 999;
     }
 
     .centered {
@@ -17,20 +26,22 @@
     .explanation {
       max-width: 950px;
       margin: auto;
+      padding: 10px;
       font-size: 1rem;
     }
 
     .dependency-box {
       background-color: #ffffff;
       border-radius: 12px;
-      padding: 16px;
+      padding: 20px;
       margin: 20px auto;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      animation: fadeIn 0.8s ease;
-      width: 90%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      animation: fadeIn 0.6s ease;
+      width: 92%;
     }
 
     .dependency-box h3 {
+      margin-top: 0;
       margin-bottom: 10px;
     }
 
@@ -46,7 +57,12 @@
     }
 
     th {
-      background-color: #e8f0ff;
+      background-color: #e3ebff;
+    }
+
+    .ticket-id {
+      font-weight: bold;
+      color: #2c3e50;
     }
 
     @keyframes fadeIn {
@@ -57,8 +73,18 @@
     footer {
       margin-top: 40px;
       text-align: center;
-      font-size: 0.9em;
+      font-size: 0.85em;
       color: #666;
+    }
+
+    @media print {
+      .navbar, select {
+        display: none;
+      }
+      body {
+        background: #fff;
+        color: #000;
+      }
     }
   </style>
 </head>
@@ -75,14 +101,14 @@
   <h1 class="centered">Dependency Tracker</h1>
 
   <p class="explanation">
-    This page summarizes cross-team dependencies. It highlights which tickets are <strong>blocking others</strong> or <strong>blocked by other teams</strong>, using Jira's "Blocks" link fields. This visibility is critical for managing delivery risks across teams.
+    This page highlights tickets that <strong>block other work</strong> or are <strong>blocked by other tickets</strong>. It pulls Jira's "Blocks" fields and displays ticket keys and summaries for transparency. Reviewing this report helps avoid delivery surprises and sequence risks.
   </p>
 
   <div id="dependencyContainer"></div>
 
   <footer>
     <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Based on <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe Program Board Guidance</a></p>
+    <p>Based on guidance from <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe Program Board</a> & <a href="https://www.atlassian.com/blog/jira-software/jira-dependency-management" target="_blank">Atlassian Dependency Management</a></p>
   </footer>
 
   <script src="dashboard_logic.js"></script>
