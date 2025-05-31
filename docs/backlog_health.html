@@ -1,1 +1,39 @@
-<!-- Placeholder for backlog_health.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Backlog Health – RASCAL</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <select onchange="location = this.value;">
+      <option value="index.html">Program Summary</option>
+      <option value="sprint_readiness.html">Sprint Readiness</option>
+      <option value="backlog_health.html" selected>Backlog Health</option>
+      <option value="dependencies.html">Dependency Tracker</option>
+    </select>
+  </div>
+
+  <h1 class="centered">Backlog Health Dashboard</h1>
+
+  <p class="explanation">
+    Backlog Health reflects the percentage of story tickets in “New” or “Grooming” status that are assigned to future sprints. This identifies whether your backlog is refined and ready to feed future work. Tickets must not be in “Done”, “Blocked”, “Cancelled”, or “In Progress” to count.
+  </p>
+
+  <div id="backlogContainer" class="readiness-section"></div>
+
+  <footer>
+    <p>Last Updated: <span id="lastUpdated"></span></p>
+    <p>Source: <a href="https://martinfowler.com/articles/product-backlog.html" target="_blank">Martin Fowler – Backlog Management</a></p>
+  </footer>
+
+  <script src="dashboard_logic.js"></script>
+  <script>
+    loadDashboard('backlog_health');
+  </script>
+</body>
+</html>
+
