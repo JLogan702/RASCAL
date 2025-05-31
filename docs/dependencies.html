@@ -1,1 +1,39 @@
-<!-- Placeholder for dependencies.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dependency Tracker – RASCAL</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <select onchange="location = this.value;">
+      <option value="index.html">Program Summary</option>
+      <option value="sprint_readiness.html">Sprint Readiness</option>
+      <option value="backlog_health.html">Backlog Health</option>
+      <option value="dependencies.html" selected>Dependency Tracker</option>
+    </select>
+  </div>
+
+  <h1 class="centered">Dependency Tracker</h1>
+
+  <p class="explanation">
+    This view highlights story tickets with blocking or blocked-by relationships across teams. Use this to identify risks and bottlenecks. Data is sourced from Jira issue links (“Blocks” and “Is Blocked By”) and is updated automatically from the CSV report.
+  </p>
+
+  <div id="dependencyTableContainer" class="dependency-table"></div>
+
+  <footer>
+    <p>Last Updated: <span id="lastUpdated"></span></p>
+    <p>Source: <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe – Program Dependency Tracking</a></p>
+  </footer>
+
+  <script src="dashboard_logic.js"></script>
+  <script>
+    loadDashboard('dependencies');
+  </script>
+</body>
+</html>
+
