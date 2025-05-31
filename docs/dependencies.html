@@ -5,7 +5,62 @@
   <title>Dependency Tracker – RASCAL</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="print.css" media="print" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #f5f5ff;
+    }
+
+    .centered {
+      text-align: center;
+    }
+
+    .explanation {
+      max-width: 950px;
+      margin: auto;
+      font-size: 1rem;
+    }
+
+    .dependency-box {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      animation: fadeIn 0.8s ease;
+      width: 90%;
+    }
+
+    .dependency-box h3 {
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #e8f0ff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
   <div class="navbar">
@@ -20,19 +75,19 @@
   <h1 class="centered">Dependency Tracker</h1>
 
   <p class="explanation">
-    This view highlights story tickets with blocking or blocked-by relationships across teams. Use this to identify risks and bottlenecks. Data is sourced from Jira issue links (“Blocks” and “Is Blocked By”) and is updated automatically from the CSV report.
+    This page summarizes cross-team dependencies. It highlights which tickets are <strong>blocking others</strong> or <strong>blocked by other teams</strong>, using Jira's "Blocks" link fields. This visibility is critical for managing delivery risks across teams.
   </p>
 
-  <div id="dependencyTableContainer" class="dependency-table"></div>
+  <div id="dependencyContainer"></div>
 
   <footer>
     <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Source: <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe – Program Dependency Tracking</a></p>
+    <p>Based on <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe Program Board Guidance</a></p>
   </footer>
 
   <script src="dashboard_logic.js"></script>
   <script>
-    loadDashboard('dependencies');
+    loadDashboard("dependencies");
   </script>
 </body>
 </html>
