@@ -2,61 +2,145 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>RASCAL – Program Summary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Program Summary</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
-  <script src="dashboard_logic.js" defer></script>
+  <script defer src="dashboard_logic.js"></script>
+  <style>
+    body {
+      background: #f3faff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .navbar {
+      background-color: #083c5c;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .navbar select {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 2rem 3rem;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .summary-box {
+      flex: 1;
+      min-width: 300px;
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .summary-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .summary-box h2 {
+      color: #003c5a;
+      margin-top: 0;
+    }
+
+    .summary-box p,
+    .summary-box li {
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .stoplight-box {
+      flex: 0 0 200px;
+      text-align: center;
+    }
+
+    .stoplight-box h3 {
+      color: #003c5a;
+    }
+
+    .stoplight-img {
+      width: 100px;
+      height: auto;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding: 1rem 3rem;
+      font-size: 0.9rem;
+      color: #666;
+      border-top: 1px solid #ccc;
+    }
+
+    .footer a {
+      color: #004a77;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Program Summary Dashboard</h1>
-    <select onchange="location = this.value;">
-      <option value="index.html">Program Summary</option>
+  <div class="navbar">
+    <select onchange="location = this.value">
+      <option value="index.html" selected>Program Summary</option>
       <option value="sprint_readiness.html">Sprint Readiness</option>
       <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependencies</option>
+      <option value="dependencies.html">Dependency Tracker</option>
     </select>
-  </header>
+  </div>
 
-  <main>
-    <section class="explanation-box">
-      <strong>These dashboards are designed to inform—not punish.</strong> Our goal is to provide objective visibility into the state of story ticket flow across the program. This summary aggregates the status of upcoming sprints and backlog grooming across all teams. Use this as a conversation starter and improvement guide.
-
+  <div class="container">
+    <div class="summary-box">
+      <h2>These dashboards are designed to inform—not punish.</h2>
       <p>
-        The <strong>Overall Program Health</strong> shown below reflects Sprint Readiness and Backlog Health calculations, following guidance from the 
-        <a href="https://www.scrum.org/resources/scrum-guide" target="_blank">Scrum Guide</a>,
-        <a href="https://agilemanifesto.org/" target="_blank">Agile Manifesto</a>, and industry reports like 
-        <a href="https://stateofagile.com/" target="_blank">State of Agile</a> (VersionOne, 2023).
-        Specifically:
+        Our goal is to provide objective visibility into the state of story ticket flow across the program. This summary aggregates the status of upcoming sprints and backlog grooming across all teams. Use this as a conversation starter and improvement guide.
+      </p>
+      <p>
+        <strong>Overall Program Health</strong> is derived from Sprint Readiness and Backlog Health calculations, following guidance from the
+        <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum Guide</a>,
+        <a href="https://agilemanifesto.org" target="_blank">Agile Manifesto</a>, and
+        <a href="https://stateofagile.com/" target="_blank">State of Agile</a>.
       </p>
       <ul>
-        <li><strong>Sprint Readiness</strong> = % of story tickets in future sprints marked as “To Do” or “Ready for Development”</li>
-        <li><strong>Backlog Health</strong> = % of all non-done stories in grooming statuses assigned to future sprints</li>
+        <li><strong>Sprint Readiness:</strong> % of story tickets in future sprints marked as “To Do” or “Ready for Development”</li>
+        <li><strong>Backlog Health:</strong> % of all non-done stories in grooming statuses assigned to future sprints</li>
         <li>Each team has separate calculations displayed on their dedicated tabs</li>
       </ul>
-    </section>
+    </div>
 
-    <section class="stoplight-section">
-      <h2>Overall Program Status</h2>
-      <div class="stoplight-summary">
-        <img id="program-stoplight" class="stoplight-img" src="blinking_yellow.gif" alt="Program Status Stoplight" />
-      </div>
-    </section>
+    <div class="stoplight-box">
+      <h3>Overall Program Status</h3>
+      <img id="programLight" class="stoplight-img" src="blinking_yellow.gif" alt="Program Status Light" />
+    </div>
+  </div>
 
-    <section class="explanation-box">
-      <p>
-        This light reflects an aggregate readiness + backlog health score using weighted logic across all five teams.
-        It's designed to help leadership quickly assess if upcoming work is ready, at risk, or blocked from the start.
-      </p>
-      <p>
-        See Sprint Readiness and Backlog Health pages for individual team metrics, issue counts by status, and explanation of values.
-      </p>
-    </section>
-
-    <footer>
-      <p>Based on Agile best practices and program standards. Source: Scrum.org, State of Agile Report, Agile Manifesto.</p>
-    </footer>
-  </main>
+  <div class="footer">
+    <p>
+      This light reflects an aggregate score across all teams using weighted logic for Sprint Readiness and Backlog Health. See other dashboard pages for team-level breakdowns, exact metrics, and improvement opportunities.
+    </p>
+    <p>
+      Source: <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org – What is a Sprint Backlog?</a>
+    </p>
+  </div>
 </body>
 </html>
 
