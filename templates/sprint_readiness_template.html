@@ -24,7 +24,29 @@
   </header>
 
   <div class="container">
-    
+    {% for team in teams %}
+      <div class="team-box">
+        <h2>{{ team.name }}</h2>
+        <img class="stoplight" src="{{ team.stoplight }}" alt="status" />
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for status, count in team.status_counts.items() %}
+              <tr>
+                <td>{{ status }}</td>
+                <td>{{ count }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="team-explanation">{{ team.explanation }}</p>
+      </div>
+    {% endfor %}
   </div>
 
   <footer>
@@ -33,3 +55,4 @@
   </footer>
 </body>
 </html>
+

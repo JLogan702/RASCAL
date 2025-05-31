@@ -26,7 +26,22 @@
     </p>
 
     <div class="grid">
-      
+      {% for team in teams %}
+        <div class="team-box">
+          <img src="{{ team.stoplight }}" alt="{{ team.status }} stoplight" class="stoplight" />
+          <h2>{{ team.name }}</h2>
+          <canvas id="chart-{{ loop.index }}"></canvas>
+          <ul class="status-counts">
+            {% for status, count in team.status_counts.items() %}
+              <li>{{ status }}: {{ count }}</li>
+            {% endfor %}
+            <li><strong>Total:</strong> {{ team.total }}</li>
+          </ul>
+          <p class="explanation">
+            {{ team.explanation }}
+          </p>
+        </div>
+      {% endfor %}
     </div>
 
     <p class="source-note">
@@ -38,3 +53,4 @@
   <script src="dashboard_logic.js"></script>
 </body>
 </html>
+

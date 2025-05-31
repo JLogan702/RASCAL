@@ -1,26 +1,50 @@
 {
   "sprint_readiness": {
-    "teams": {
-      "Engineering - Product": {
-        "ready": 3,
-        "total": 10,
-        "status_counts": {
-          "To Do": 2,
-          "Ready for Development": 1,
-          "In Progress": 4,
-          "Blocked": 3
-        }
+    "Engineering - Product": {
+      "status_counts": {
+        "New": 14,
+        "Grooming": 13,
+        "Ready for Development": 3,
+        "To Do": 2
       },
-      "Engineering - Platform": {
-        "ready": 0,
-        "total": 5,
-        "status_counts": {
-          "To Do": 0,
-          "Ready for Development": 0,
-          "In Progress": 2,
-          "Blocked": 3
-        }
-      }
+      "ready_count": 5,
+      "total_count": 32,
+      "readiness_percent": 15.62,
+      "stoplight": "red"
+    },
+    "Engineering - Platform": {
+      "status_counts": {},
+      "ready_count": 0,
+      "total_count": 0,
+      "readiness_percent": 0,
+      "stoplight": "red"
+    },
+    "Engineering - AI Ops": {
+      "status_counts": {
+        "New": 5,
+        "To Do": 2
+      },
+      "ready_count": 2,
+      "total_count": 7,
+      "readiness_percent": 28.57,
+      "stoplight": "red"
+    },
+    "Design": {
+      "status_counts": {
+        "To Do": 3,
+        "New": 3
+      },
+      "ready_count": 3,
+      "total_count": 6,
+      "readiness_percent": 50.0,
+      "stoplight": "yellow"
+    },
+    "Data Science": {
+      "status_counts": {},
+      "ready_count": 0,
+      "total_count": 0,
+      "readiness_percent": 0,
+      "stoplight": "red"
     }
   },
   "backlog_health": {
