@@ -5,7 +5,37 @@
   <title>Sprint Readiness – RASCAL</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="print.css" media="print" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #f4f7f9;
+    }
+
+    .team-box img {
+      width: 40px;
+      height: auto;
+      margin: 8px 0;
+    }
+
+    .team-box {
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .explanation {
+      max-width: 950px;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
   <div class="navbar">
@@ -32,7 +62,7 @@
 
   <script src="dashboard_logic.js"></script>
   <script>
-    loadDashboard('sprint_readiness');
+    loadDashboard("sprint_readiness");
   </script>
 </body>
 </html>
