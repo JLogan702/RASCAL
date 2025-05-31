@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="print.css" media="print" />
   <style>
     body {
-      background-color: #f4f7f9;
+      background-color: #f0f8ff;
     }
 
     .team-box img {
@@ -18,15 +18,47 @@
 
     .team-box {
       animation: fadeIn 0.8s ease;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .centered {
+      text-align: center;
     }
 
     .explanation {
       max-width: 950px;
+      margin: auto;
+      font-size: 1rem;
+    }
+
+    .status-table {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .status-table th, .status-table td {
+      padding: 4px 10px;
+      border: 1px solid #ccc;
+    }
+
+    .status-table th {
+      background-color: #e9f3ff;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #2c3e50;
     }
 
     footer {
@@ -50,14 +82,15 @@
   <h1 class="centered">Sprint Readiness Dashboard</h1>
 
   <p class="explanation">
-    Sprint Readiness measures the percentage of story tickets assigned to a future sprint that are in “To Do” or “Ready for Development” status. This helps identify whether upcoming sprints are truly actionable. Tickets must be assigned to a future sprint and not be in Done, Blocked, or In Progress to be considered.
+    Sprint Readiness measures how prepared each team is to start their next sprint. Tickets must be:
+    <span class="highlight">Stories</span>, assigned to a <span class="highlight">future sprint</span>, and in <span class="highlight">"Ready for Development"</span> or <span class="highlight">"To Do"</span> status. All other statuses are shown below for full transparency.
   </p>
 
   <div id="readinessContainer" class="readiness-section"></div>
 
   <footer>
     <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Source: <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org – Sprint Backlog Readiness</a></p>
+    <p>Based on <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org: What is a Sprint Backlog?</a></p>
   </footer>
 
   <script src="dashboard_logic.js"></script>
