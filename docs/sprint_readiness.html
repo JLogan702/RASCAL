@@ -8,26 +8,55 @@
   <style>
     body {
       background-color: #f0f8ff;
+      font-family: 'Segoe UI', sans-serif;
     }
 
-    .team-box img {
-      width: 40px;
-      height: auto;
-      margin: 8px 0;
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #dff0fc;
+      padding: 10px;
+      z-index: 999;
     }
 
     .team-box {
-      animation: fadeIn 0.8s ease;
-      background: #fff;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 24px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      animation: fadeIn 0.6s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .team-box h3 {
+      margin-top: 0;
+    }
+
+    .team-box img {
+      width: 30px;
+      height: 30px;
+      vertical-align: middle;
+    }
+
+    .status-table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .status-table th, .status-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+    }
+
+    .status-table th {
+      background-color: #eef8ff;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #2c3e50;
     }
 
     .centered {
@@ -37,35 +66,48 @@
     .explanation {
       max-width: 950px;
       margin: auto;
+      padding: 8px;
       font-size: 1rem;
     }
 
-    .status-table {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      border-collapse: collapse;
-      width: 100%;
+    .tooltip {
+      position: relative;
+      cursor: help;
     }
 
-    .status-table th, .status-table td {
-      padding: 4px 10px;
-      border: 1px solid #ccc;
+    .tooltip:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 0;
+      bottom: 110%;
+      background: #222;
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-size: 0.8rem;
     }
 
-    .status-table th {
-      background-color: #e9f3ff;
-    }
-
-    .highlight {
-      font-weight: bold;
-      color: #2c3e50;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     footer {
       margin-top: 40px;
       text-align: center;
-      font-size: 0.9em;
-      color: #666;
+      font-size: 0.85em;
+      color: #777;
+    }
+
+    @media print {
+      .navbar, img, select {
+        display: none;
+      }
+      body {
+        background: #fff;
+        color: #000;
+      }
     }
   </style>
 </head>
@@ -82,15 +124,18 @@
   <h1 class="centered">Sprint Readiness Dashboard</h1>
 
   <p class="explanation">
-    Sprint Readiness measures how prepared each team is to start their next sprint. Tickets must be:
-    <span class="highlight">Stories</span>, assigned to a <span class="highlight">future sprint</span>, and in <span class="highlight">"Ready for Development"</span> or <span class="highlight">"To Do"</span> status. All other statuses are shown below for full transparency.
+    Sprint Readiness reflects how many story tickets per team are both:
+    <span class="highlight tooltip" data-tooltip="Only Story issue types count for this metric.">Story-type</span>,
+    assigned to a <span class="highlight tooltip" data-tooltip="Ticket must be in a sprint that is not currently active.">future sprint</span>,
+    and in <span class="highlight tooltip" data-tooltip='Includes "To Do" or "Ready for Development" statuses only.'>ready statuses</span>.
+    Other statuses are shown below for context.
   </p>
 
   <div id="readinessContainer" class="readiness-section"></div>
 
   <footer>
     <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Based on <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org: What is a Sprint Backlog?</a></p>
+    <p>Best practices from <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org: Sprint Backlog Guidance</a></p>
   </footer>
 
   <script src="dashboard_logic.js"></script>
