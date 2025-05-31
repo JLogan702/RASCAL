@@ -24,7 +24,7 @@ function parseCSV(csv) {
   const [headerLine, ...lines] = csv.trim().split("\n");
   const headers = headerLine.split(",");
   return lines.map(line => {
-    const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // handles quoted commas
+    const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     const entry = {};
     headers.forEach((h, i) => entry[h.trim()] = (values[i] || "").trim().replace(/^"|"$/g, ""));
     return entry;
@@ -59,46 +59,10 @@ function countByTeamAndStatus(data, teams, statuses, filterFn) {
   return result;
 }
 
-function renderSprintReadiness(data, teams, statuses) {
-  const container = document.getElementById("readinessContainer");
-  const result = countByTeamAndStatus(data, teams, statuses, (status, sprint, isFuture) => isFuture && status !== "Done" && status !== "Blocked" && status !== "Cancelled" && status !== "In Progress");
-
-  Object.entries(result).forEach(([team, metrics]) => {
-    const percent = metrics.total ? Math.round((metrics.matched / metrics.total) * 100) : 0;
-    const color = getStoplightColor(percent);
-
-    const div = document.createElement("div");
-    div.className = "team-box";
-    div.innerHTML = `
-      <h3>${team}</h3>
-      <img src="blinking_${color}.gif" alt="${color}" width="50" />
-      <p>Readiness: ${percent}%</p>
-      <ul>${Object.entries(metrics.statusCounts).map(([s, c]) => `<li>${s}: ${c}</li>`).join("")}</ul>
-      <p>This reflects tickets in future sprints that are in “Ready for Development” or “To Do”.</p>
-    `;
-    container.appendChild(div);
-  });
-}
-
-function renderBacklogHealth(data, teams, statuses) {
-  const container = document.getElementById("backlogContainer");
-  const result = countByTeamAndStatus(data, teams, statuses, (status, sprint, isFuture) => (isFuture || !sprint) && status !== "Done" && status !== "Blocked" && status !== "Cancelled" && status !== "In Progress");
-
-  Object.entries(result).forEach(([team, metrics]) => {
-    const percent = metrics.total ? Math.round((metrics.matched / metrics.total) * 100) : 0;
-    const color = getStoplightColor(percent);
-
-    const div = document.createElement("div");
-    div.className = "team-box";
-    div.innerHTML = `
-      <h3>${team}</h3>
-      <img src="blinking_${color}.gif" alt="${color}" width="50" />
-      <p>Backlog Health: ${percent}%</p>
-      <ul>${Object.entries(metrics.statusCounts).map(([s, c]) => `<li>${s}: ${c}</li>`).join("")}</ul>
-      <p>This reflects non-Done story tickets in “New” or “Grooming” assigned to future sprints or backlog.</p>
-    `;
-    container.appendChild(div);
-  });
+function getStoplightColor(percent) {
+  if (percent >= 80) return "green";
+  if (percent >= 50) return "yellow";
+  return "red";
 }
 
 function renderProgramSummary(data, teams, readinessStatuses, backlogStatuses) {
@@ -115,63 +79,36 @@ function renderProgramSummary(data, teams, readinessStatuses, backlogStatuses) {
   });
 
   const programAvg = Math.round(teamScores.reduce((sum, t) => sum + t.avg, 0) / teamScores.length);
-  const color = getStoplightColor(programAvg);
-  document.getElementById("overallStoplight").src = `blinking_${color}.gif`;
+  const programColor = getStoplightColor(programAvg);
+  const overallImg = document.getElementById("overallStoplight");
+  overallImg.src = `blinking_${programColor}.gif`;
+  overallImg.alt = `Overall is ${programColor}`;
 
-  const ctx = document.getElementById("programChart").getContext("2d");
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: teamScores.map(t => t.team),
-      datasets: [{
-        label: "Program Health (%)",
-        data: teamScores.map(t => t.avg)
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { min: 0, max: 100 }
-      }
-    }
-  });
+  const tableBody = document.getElementById("summaryTableBody");
+  tableBody.innerHTML = "";
 
-  const explContainer = document.getElementById("teamExplanations");
   teamScores.forEach(({ team, avg }) => {
-    const p = document.createElement("p");
-    p.innerText = `${team} average score: ${avg}% based on Sprint Readiness and Backlog Health combined.`;
-    explContainer.appendChild(p);
+    const row = document.createElement("tr");
+
+    const stoplightImg = document.createElement("img");
+    stoplightImg.src = `blinking_${getStoplightColor(avg)}.gif`;
+    stoplightImg.alt = `${getStoplightColor(avg)} stoplight`;
+    stoplightImg.width = 40;
+
+    row.innerHTML = `
+      <td>${team}</td>
+      <td>${stoplightImg.outerHTML}</td>
+      <td>${avg}%</td>
+      <td>${getProgramInterpretation(avg)}</td>
+    `;
+
+    tableBody.appendChild(row);
   });
 }
 
-function renderDependencies(data) {
-  const container = document.getElementById("dependencyTableContainer");
-  const filtered = data.filter(row => row["Inward issue link (Blocks)"] || row["Outward issue link (Blocks)"]);
-
-  const table = document.createElement("table");
-  table.innerHTML = `
-    <thead>
-      <tr><th>Ticket</th><th>Blocks</th><th>Is Blocked By</th><th>Component</th><th>Status</th></tr>
-    </thead>
-    <tbody>
-      ${filtered.map(row => `
-        <tr>
-          <td>${row["Issue key"]}</td>
-          <td>${row["Outward issue link (Blocks)"]}</td>
-          <td>${row["Inward issue link (Blocks)"]}</td>
-          <td>${row["Components"]}</td>
-          <td>${row["Status"]}</td>
-        </tr>
-      `).join("")}
-    </tbody>
-  `;
-  container.appendChild(table);
-}
-
-function getStoplightColor(percent) {
-  if (percent >= 80) return "green";
-  if (percent >= 50) return "yellow";
-  return "red";
+function getProgramInterpretation(score) {
+  if (score >= 80) return "On track — teams appear ready to execute.";
+  if (score >= 50) return "Caution — backlog or readiness gaps emerging.";
+  return "At risk — major prep or backlog issues present.";
 }
 
