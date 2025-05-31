@@ -1,44 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>RASCAL – Dependencies</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>Dependency Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="dashboard_logic.js" defer></script>
 </head>
 <body>
   <header>
     <h1>Dependency Tracker</h1>
-    <select onchange="location = this.value;">
-      <option value="dependencies.html" selected>Dependencies</option>
-      <option value="index.html">Program Summary</option>
+    <select class="dropdown-nav" onchange="location = this.value;">
+      <option value="dependencies.html" selected>Dependency Tracker</option>
       <option value="sprint_readiness.html">Sprint Readiness</option>
       <option value="backlog_health.html">Backlog Health</option>
+      <option value="index.html">Program Summary</option>
     </select>
   </header>
-
   <main>
-    <section class="explanation-box">
-      <strong>This page helps identify critical cross-team or external blockers.</strong>
+    <div class="chart-container">
+      <h2>Overview</h2>
       <p>
-        Dependency tickets are pulled directly from Jira's "Blocks" link fields. These reflect unresolved inbound or outbound blockers. 
-        Story tickets with one or more blocking links are listed below. 
-        We include ticket summaries to help assess risk and understand impact.
+        This section highlights story-level dependencies between teams. We look for open “blocks” relationships 
+        in Jira and break them down by source and target team. Addressing these early is crucial for planning 
+        and delivery across sprints.
       </p>
-      <p>
-        Proactively resolving these items can unblock value delivery and prevent sprint spillover.
-      </p>
-    </section>
+    </div>
 
-    <section class="dependency-container">
-      <h2>Active Dependencies</h2>
-      <div id="dependency-summary"></div>
-    </section>
-
-    <footer>
-      <p>Data source: Jira Cloud, using “Blocks” fields. Industry guidance: SAFe 6.0 – Dependency Management, Scrum.org.</p>
-    </footer>
+    <div class="team-section" id="dependencyTrackerContent">
+      <!-- Populated dynamically by dashboard_logic.js -->
+    </div>
   </main>
+  <footer>
+    Dependencies reflect Jira story tickets with 'blocks' issue links. Source: Agile Dependency Management Practices – Scaled Agile Framework (SAFe), Scrum.org, and Atlassian
+  </footer>
 </body>
 </html>
 
