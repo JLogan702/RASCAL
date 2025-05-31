@@ -5,7 +5,6 @@
   <title>Program Summary – RASCAL</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="print.css" media="print" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="navbar">
@@ -20,21 +19,38 @@
   <h1 class="centered">Program Summary</h1>
 
   <p class="explanation">
-    This report blends Sprint Readiness and Backlog Health to give a high-level picture of each team’s preparation and agility. Metrics are based on current story tickets across future sprints and backlog queues. Stoplight indicators follow Agile best practices and industry norms to provide visual guidance for action. These reports are designed to inform—not penalize—and help teams self-correct quickly.
+    This report blends Sprint Readiness and Backlog Health to provide a clear overview of each team’s agile preparedness. Metrics are calculated using only future-sprint or backlog-assigned story tickets (excluding Done, Blocked, or In Progress). Readiness includes tickets in “To Do” and “Ready for Development”. Backlog Health includes “New” and “Grooming”.
+
+    <br><br>
+    <strong>Standards Used:</strong><br>
+    • <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org – Sprint Backlog</a><br>
+    • <a href="https://www.agilealliance.org/glossary/backlog/" target="_blank">Agile Alliance – Backlog Management</a><br>
+    • <a href="https://martinfowler.com/articles/product-backlog.html" target="_blank">Martin Fowler – Backlog Evolution</a><br><br>
+    These dashboards are designed to help teams reflect and adjust — not to penalize. Data is real, calculated consistently, and updated regularly.
   </p>
 
   <div class="overall-status">
     <h2>Overall Program Health</h2>
-    <img id="overallStoplight" src="blinking_green.gif" alt="Overall Stoplight" width="100" />
+    <img id="overallStoplight" src="blinking_red.gif" alt="Overall Stoplight" width="100" />
   </div>
 
-  <canvas id="programChart" width="600" height="300"></canvas>
-
-  <div id="teamExplanations" class="team-explanations"></div>
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Team</th>
+        <th>Stoplight</th>
+        <th>Score (%)</th>
+        <th>Interpretation</th>
+      </tr>
+    </thead>
+    <tbody id="summaryTableBody">
+      <!-- JS injects rows here -->
+    </tbody>
+  </table>
 
   <footer>
     <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Source: <a href="https://www.agilealliance.org/glossary/backlog" target="_blank">Agile Alliance - Backlog Management</a></p>
+    <p>Sources: See links above</p>
   </footer>
 
   <script src="dashboard_logic.js"></script>
