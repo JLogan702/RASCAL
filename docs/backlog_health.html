@@ -2,145 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Backlog Health – RASCAL</title>
+  <title>Backlog Health</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
-  <style>
-    body {
-      background-color: #fefaf5;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      background: #f7eedd;
-      padding: 10px;
-      z-index: 999;
-    }
-
-    .centered {
-      text-align: center;
-    }
-
-    .explanation {
-      max-width: 950px;
-      margin: auto;
-      padding: 8px;
-      font-size: 1rem;
-    }
-
-    .team-box {
-      background-color: #ffffff;
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      animation: fadeIn 0.6s ease;
-    }
-
-    .team-box h3 {
-      margin-top: 0;
-    }
-
-    .team-box img {
-      width: 30px;
-      height: 30px;
-      vertical-align: middle;
-    }
-
-    .status-table {
-      width: 100%;
-      margin-top: 10px;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    .status-table th, .status-table td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-    }
-
-    .status-table th {
-      background-color: #fff2db;
-    }
-
-    .highlight {
-      font-weight: bold;
-      color: #2c3e50;
-    }
-
-    .tooltip {
-      position: relative;
-      cursor: help;
-    }
-
-    .tooltip:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: 0;
-      bottom: 110%;
-      background: #222;
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: 4px;
-      white-space: nowrap;
-      font-size: 0.8rem;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.85em;
-      color: #777;
-    }
-
-    @media print {
-      .navbar, img, select {
-        display: none;
-      }
-      body {
-        background: #fff;
-        color: #000;
-      }
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="dashboard_logic.js" defer></script>
 </head>
 <body>
-  <div class="navbar">
-    <select onchange="location = this.value;">
-      <option value="index.html">Program Summary</option>
-      <option value="sprint_readiness.html">Sprint Readiness</option>
+  <header>
+    <h1>Backlog Health Dashboard</h1>
+    <select class="dropdown-nav" onchange="location = this.value;">
       <option value="backlog_health.html" selected>Backlog Health</option>
+      <option value="sprint_readiness.html">Sprint Readiness</option>
       <option value="dependencies.html">Dependency Tracker</option>
+      <option value="index.html">Program Summary</option>
     </select>
-  </div>
+  </header>
+  <main>
+    <div class="chart-container">
+      <h2>Overview</h2>
+      <p>
+        This report shows how much of each team’s backlog is in “groomed” statuses vs how much is unready. 
+        We’re using industry best practices to prioritize backlog items that are in <strong>New</strong> and <strong>Grooming</strong> for future sprints. 
+        A healthy backlog ensures better sprint planning, reduced churn, and faster velocity.
+      </p>
+    </div>
 
-  <h1 class="centered">Backlog Health Dashboard</h1>
-
-  <p class="explanation">
-    Backlog Health represents how many story tickets are being groomed for the future. We calculate it by counting only tickets that are:
-    <span class="highlight tooltip" data-tooltip="Story tickets not in a current sprint">outside active sprints</span> and in
-    <span class="highlight tooltip" data-tooltip='Only "New" or "Grooming" statuses count toward readiness'>preparation statuses</span>.
-    Below you’ll see all statuses listed for transparency.
-  </p>
-
-  <div id="backlogContainer" class="backlog-section"></div>
-
+    <div class="team-section" id="backlogHealthContent">
+      <!-- Populated by dashboard_logic.js -->
+    </div>
+  </main>
   <footer>
-    <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Backlog health scoring based on <a href="https://www.atlassian.com/agile/backlogs" target="_blank">Atlassian Agile Guide</a> & <a href="https://pm.stackexchange.com/questions/4092/what-is-a-good-ratio-for-groomed-backlog" target="_blank">PM Stack Exchange Grooming Best Practices</a></p>
+    Metrics derived from Jira report — Story tickets only, non-Done, not in active sprints. Source: Agile Alliance, Scrum.org Backlog Best Practices
   </footer>
-
-  <script src="dashboard_logic.js"></script>
-  <script>
-    loadDashboard("backlog_health");
-  </script>
 </body>
 </html>
 
