@@ -1,66 +1,20 @@
-Bfunction loadDependencies(data) {
-  const container = document.getElementById("dependency-summary");
-  if (!container) return;
-
-  const dependencyMap = {};
-
-  data.forEach(row => {
-    const issueKey = row["Key"];
-    const summary = row["Summary"];
-    const inward = row["Inward issue link (Blocks)"];
-    const outward = row["Outward issue link (Blocks)"];
-
-    if (inward || outward) {
-      dependencyMap[issueKey] = {
-        summary,
-        blocks: [],
-      };
-
-      if (inward) {
-        inward.split(',').forEach(dep => dependencyMap[issueKey].blocks.push(dep.trim()));
-      }
-
-      if (outward) {
-        outward.split(',').forEach(dep => dependencyMap[issueKey].blocks.push(dep.trim()));
-      }
-    }
-  });
-
-  if (Object.keys(dependencyMap).length === 0) {
-    container.innerHTML = "<p>No current blocking dependencies found in the dataset.</p>";
-    return;
-  }
-
-  const table = document.createElement("table");
-  table.className = "dependency-table";
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Ticket</th>
-        <th>Summary</th>
-        <th>Blocks / Blocked By</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${Object.entries(dependencyMap).map(([key, info]) => `
-        <tr>
-          <td><strong>${key}</strong></td>
-          <td>${info.summary}</td>
-          <td>${info.blocks.join(", ")}</td>
-        </tr>
-      `).join("")}
-    </tbody>
-  `;
-  container.appendChild(table);
+function loadDashboard(page) {
+  fetch("render_data.json")
+    .then(response => response.json())
+    .then(data => {
+      if (page === "sprint_readiness") renderSprintReadiness(data.sprint_readiness);
+      else if (page === "backlog_health") renderBacklogHealth(data.backlog_health);
+      else if (page === "dependencies") loadDependencies(data.dependencies);
+      else if (page === "program_summary") renderProgramSummary(data.program_summary);
+    })
+    .catch(error => {
+      console.error("Failed to load dashboard data:", error);
+    });
 }
 
-fetch("jira_data.csv")
-  .then(response => response.text())
-  .then(csv => {
-    const data = Papa.parse(csv, { header: true }).data;
-    renderSprintReadiness(data);
-    renderBacklogHealth(data);
-    renderProgramSummary(data);
-    loadDependencies(data);
-  });
+// Utility: Format date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" });
+}
 
