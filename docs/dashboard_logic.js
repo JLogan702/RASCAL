@@ -1,52 +1,66 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("jira_data.csv")
-    .then(response => response.text())
-    .then(data => {
-      const rows = data.trim().split("\n").slice(1); // skip header
-      const parsedData = rows.map(row => {
-        const cols = row.split(",");
-        return {
-          component: cols[24].trim(), // Components (column Y, index 24)
-          status: cols[7].trim(),     // Status (assumed)
-          sprint: cols[165].trim(),   // Sprint (column FK, index 165)
-          summary: cols[3].trim(),    // Summary (column D, index 3)
-          key: cols[0].trim(),        // Issue Key (column A)
-          inward: cols[50].trim(),    // Inward link (AY, index 50)
-          outward: cols[51].trim()    // Outward link (AZ, index 51)
-        };
-      });
+Bfunction loadDependencies(data) {
+  const container = document.getElementById("dependency-summary");
+  if (!container) return;
 
-      const teams = [
-        "Engineering - Product",
-        "Engineering - Platform",
-        "Engineering - AI Ops",
-        "Design",
-        "Data Science"
-      ];
+  const dependencyMap = {};
 
-      teams.forEach(team => {
-        const teamData = parsedData.filter(d => d.component === team);
-        const total = teamData.length;
+  data.forEach(row => {
+    const issueKey = row["Key"];
+    const summary = row["Summary"];
+    const inward = row["Inward issue link (Blocks)"];
+    const outward = row["Outward issue link (Blocks)"];
 
-        const statuses = {};
-        teamData.forEach(d => {
-          if (!statuses[d.status]) statuses[d.status] = 0;
-          statuses[d.status]++;
-        });
+    if (inward || outward) {
+      dependencyMap[issueKey] = {
+        summary,
+        blocks: [],
+      };
 
-        // Insert into the DOM
-        const container = document.getElementById(team.replaceAll(" ", "_"));
-        if (container) {
-          const breakdown = document.createElement("div");
-          breakdown.className = "status-breakdown";
+      if (inward) {
+        inward.split(',').forEach(dep => dependencyMap[issueKey].blocks.push(dep.trim()));
+      }
 
-          breakdown.innerHTML = `<h4>Story Ticket Status Breakdown (${total} total)</h4><ul>` +
-            Object.entries(statuses).map(([status, count]) =>
-              `<li><strong>${status}</strong>: ${count}</li>`).join("") +
-            `</ul>`;
-          container.appendChild(breakdown);
-        }
-      });
-    });
-});
+      if (outward) {
+        outward.split(',').forEach(dep => dependencyMap[issueKey].blocks.push(dep.trim()));
+      }
+    }
+  });
+
+  if (Object.keys(dependencyMap).length === 0) {
+    container.innerHTML = "<p>No current blocking dependencies found in the dataset.</p>";
+    return;
+  }
+
+  const table = document.createElement("table");
+  table.className = "dependency-table";
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Ticket</th>
+        <th>Summary</th>
+        <th>Blocks / Blocked By</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${Object.entries(dependencyMap).map(([key, info]) => `
+        <tr>
+          <td><strong>${key}</strong></td>
+          <td>${info.summary}</td>
+          <td>${info.blocks.join(", ")}</td>
+        </tr>
+      `).join("")}
+    </tbody>
+  `;
+  container.appendChild(table);
+}
+
+fetch("jira_data.csv")
+  .then(response => response.text())
+  .then(csv => {
+    const data = Papa.parse(csv, { header: true }).data;
+    renderSprintReadiness(data);
+    renderBacklogHealth(data);
+    renderProgramSummary(data);
+    loadDependencies(data);
+  });
 
