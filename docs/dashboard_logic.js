@@ -1,61 +1,52 @@
-async function loadDashboard(type) {
-  const response = await fetch("render_data.json");
-  const data = await response.json();
-  const containerId = {
-    sprint_readiness: "readinessContainer",
-    backlog_health: "backlogContainer",
-    dependencies: "dependencyContainer"
-  }[type];
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("jira_data.csv")
+    .then(response => response.text())
+    .then(data => {
+      const rows = data.trim().split("\n").slice(1); // skip header
+      const parsedData = rows.map(row => {
+        const cols = row.split(",");
+        return {
+          component: cols[24].trim(), // Components (column Y, index 24)
+          status: cols[7].trim(),     // Status (assumed)
+          sprint: cols[165].trim(),   // Sprint (column FK, index 165)
+          summary: cols[3].trim(),    // Summary (column D, index 3)
+          key: cols[0].trim(),        // Issue Key (column A)
+          inward: cols[50].trim(),    // Inward link (AY, index 50)
+          outward: cols[51].trim()    // Outward link (AZ, index 51)
+        };
+      });
 
-  const container = document.getElementById(containerId);
-  const readinessStatuses = ["Ready for Development", "To Do"];
+      const teams = [
+        "Engineering - Product",
+        "Engineering - Platform",
+        "Engineering - AI Ops",
+        "Design",
+        "Data Science"
+      ];
 
-  const statusColors = {
-    "Ready for Development": "ready",
-    "To Do": "ready"
-  };
+      teams.forEach(team => {
+        const teamData = parsedData.filter(d => d.component === team);
+        const total = teamData.length;
 
-  data[type].forEach(team => {
-    const stoplightSrc = `blinking_${team.stoplight.toLowerCase()}.gif`;
+        const statuses = {};
+        teamData.forEach(d => {
+          if (!statuses[d.status]) statuses[d.status] = 0;
+          statuses[d.status]++;
+        });
 
-    const card = document.createElement("div");
-    card.className = "team-box";
+        // Insert into the DOM
+        const container = document.getElementById(team.replaceAll(" ", "_"));
+        if (container) {
+          const breakdown = document.createElement("div");
+          breakdown.className = "status-breakdown";
 
-    const title = document.createElement("h3");
-    title.textContent = team.team;
-
-    const stoplight = document.createElement("div");
-    stoplight.className = "stoplight";
-    stoplight.innerHTML = `<img src="${stoplightSrc}" alt="${team.stoplight} light" />`;
-
-    const score = document.createElement("div");
-    score.className = "metric-score";
-    score.textContent = `${type === "sprint_readiness" ? "Readiness" : "Backlog Health"}: ${team.percentage}%`;
-
-    const statusTable = document.createElement("div");
-    statusTable.className = "status-summary";
-
-    const allStatuses = Object.entries(team.statuses || {}).sort((a, b) => {
-      return b[1] - a[1]; // sort by count desc
+          breakdown.innerHTML = `<h4>Story Ticket Status Breakdown (${total} total)</h4><ul>` +
+            Object.entries(statuses).map(([status, count]) =>
+              `<li><strong>${status}</strong>: ${count}</li>`).join("") +
+            `</ul>`;
+          container.appendChild(breakdown);
+        }
+      });
     });
-
-    let tableHTML = `<table><thead><tr><th>Status</th><th>Story Tickets</th></tr></thead><tbody>`;
-    allStatuses.forEach(([status, count]) => {
-      const className = readinessStatuses.includes(status) ? "ready" : "not-ready";
-      tableHTML += `<tr class="${className}"><td>${status}</td><td>${count}</td></tr>`;
-    });
-    tableHTML += `</tbody></table>`;
-    statusTable.innerHTML = tableHTML;
-
-    card.appendChild(title);
-    card.appendChild(stoplight);
-    card.appendChild(score);
-    card.appendChild(statusTable);
-
-    container.appendChild(card);
-  });
-
-  const now = new Date();
-  document.getElementById("lastUpdated").textContent = now.toLocaleString();
-}
+});
 

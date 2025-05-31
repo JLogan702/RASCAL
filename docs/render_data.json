@@ -1,1 +1,60 @@
-<!-- Placeholder for render_data.json -->
+{
+  "sprint_readiness": [
+    {
+      "team": "Engineering - Product",
+      "percentage": 15.62,
+      "stoplight": "Red",
+      "statuses": {
+        "New": 25,
+        "Grooming": 18,
+        "Ready for Development": 3,
+        "To Do": 3
+      }
+    },
+    {
+      "team": "Engineering - Platform",
+      "percentage": 0.0,
+      "stoplight": "Red",
+      "statuses": {
+        "To Do": 15,
+        "New": 7,
+        "Backlog": 4
+      }
+    },
+    {
+      "team": "Engineering - AI Ops",
+      "percentage": 28.57,
+      "stoplight": "Red",
+      "statuses": {
+        "New": 5,
+        "Backlog": 5,
+        "To Do": 2,
+        "Grooming": 1
+      }
+    },
+    {
+      "team": "Design",
+      "percentage": 42.86,
+      "stoplight": "Red",
+      "statuses": {
+        "To Do": 10,
+        "New": 5,
+        "Grooming": 2,
+        "In Progress": 2,
+        "Blocked": 1
+      }
+    },
+    {
+      "team": "Data Science",
+      "percentage": 0,
+      "stoplight": "Red",
+      "statuses": {
+        "To Do": 11,
+        "In Progress": 5,
+        "New": 1,
+        "UAT Testing": 1
+      }
+    }
+  ],
+  "last_updated": "2025-05-31T10:07:48.509013"
+}
