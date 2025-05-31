@@ -7,14 +7,14 @@
   <link rel="stylesheet" href="print.css" media="print" />
   <style>
     body {
-      background-color: #f2faff;
+      background-color: #f0f9ff;
       font-family: 'Segoe UI', sans-serif;
     }
 
     .navbar {
       position: sticky;
       top: 0;
-      background: #dbefff;
+      background: #cceeff;
       padding: 10px;
       z-index: 999;
     }
@@ -36,7 +36,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
       padding: 20px;
       max-width: 1200px;
@@ -46,23 +46,46 @@
     .team-box {
       background-color: #ffffff;
       border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      text-align: center;
+      padding: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: box-shadow 0.3s ease;
     }
 
-    .team-box img {
-      width: 40px;
+    .team-box:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .team-box h3 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .stoplight {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .stoplight img {
+      width: 36px;
       height: auto;
-      margin: 12px auto;
+    }
+
+    .key-metric {
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      color: #1a3f5f;
+      margin-top: 4px;
+      margin-bottom: 10px;
     }
 
     .status-table {
-      margin: 10px auto;
-      font-size: 0.9rem;
+      margin-top: 10px;
+      font-size: 0.88rem;
       border-collapse: collapse;
       width: 100%;
     }
@@ -76,16 +99,16 @@
       background-color: #e7f5ff;
     }
 
+    .highlight {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
     .footer {
       margin-top: 40px;
       text-align: center;
       font-size: 0.9em;
       color: #666;
-    }
-
-    .highlight {
-      font-weight: bold;
-      color: #2c3e50;
     }
 
     @media print {
@@ -113,13 +136,13 @@
 
   <div class="explanation">
     <p><strong>What is Sprint Readiness?</strong><br />
-    This metric reflects how well teams are preparing their next sprint. We calculate it based on the number of story tickets assigned to a <strong>future sprint</strong> that are in either <strong>“Ready for Development”</strong> or <strong>“To Do”</strong> status.</p>
-
-    <p><strong>Why it matters:</strong><br />
-    Teams that lack prepared work may enter sprints with uncertainty, increasing the risk of delays, idle time, or missed commitments.</p>
-
-    <p><strong>How to read this:</strong><br />
-    The percentage indicates how many of a team's future-sprint story tickets are in a ready state. All statuses are shown for transparency, but only “To Do” and “Ready for Development” count toward readiness.</p>
+    This metric shows how many story tickets are ready to be worked in the next sprint. Tickets must be:</p>
+    <ul>
+      <li><strong>Story-type</strong></li>
+      <li>Assigned to a <strong>future sprint</strong></li>
+      <li>In <strong>“To Do”</strong> or <strong>“Ready for Development”</strong> status</li>
+    </ul>
+    <p>All statuses are shown per team for transparency, even if they don’t count toward readiness.</p>
   </div>
 
   <div id="readinessContainer" class="grid"></div>
