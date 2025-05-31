@@ -1,1 +1,46 @@
-<!-- Placeholder for index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Program Summary – RASCAL</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <select onchange="location = this.value;">
+      <option value="index.html">Program Summary</option>
+      <option value="sprint_readiness.html">Sprint Readiness</option>
+      <option value="backlog_health.html">Backlog Health</option>
+      <option value="dependencies.html">Dependency Tracker</option>
+    </select>
+  </div>
+
+  <h1 class="centered">Program Summary</h1>
+
+  <p class="explanation">
+    This report blends Sprint Readiness and Backlog Health to give a high-level picture of each team’s preparation and agility. Metrics are based on current story tickets across future sprints and backlog queues. Stoplight indicators follow Agile best practices and industry norms to provide visual guidance for action. These reports are designed to inform—not penalize—and help teams self-correct quickly.
+  </p>
+
+  <div class="overall-status">
+    <h2>Overall Program Health</h2>
+    <img id="overallStoplight" src="blinking_green.gif" alt="Overall Stoplight" width="100" />
+  </div>
+
+  <canvas id="programChart" width="600" height="300"></canvas>
+
+  <div id="teamExplanations" class="team-explanations"></div>
+
+  <footer>
+    <p>Last Updated: <span id="lastUpdated"></span></p>
+    <p>Source: <a href="https://www.agilealliance.org/glossary/backlog" target="_blank">Agile Alliance - Backlog Management</a></p>
+  </footer>
+
+  <script src="dashboard_logic.js"></script>
+  <script>
+    loadDashboard('index');
+  </script>
+</body>
+</html>
+
