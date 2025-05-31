@@ -1,181 +1,122 @@
 {
   "sprint_readiness": {
     "Engineering - Platform": {
-      "ready": 0,
-      "total": 11,
-      "percent": 0.0,
-      "stoplight": "red",
+      "readiness": 0.0,
+      "total": 3,
       "statuses": {
-        "New": 11
+        "Backlog": 3
       }
     },
     "Engineering - Product": {
-      "ready": 3,
-      "total": 45,
-      "percent": 6.7,
-      "stoplight": "red",
+      "readiness": 15.6,
+      "total": 32,
       "statuses": {
+        "New": 14,
+        "Grooming": 13,
         "Ready for Development": 3,
-        "Grooming": 17,
-        "New": 25
+        "To Do": 2
       }
     },
     "Design": {
-      "ready": 0,
+      "readiness": 42.9,
       "total": 7,
-      "percent": 0.0,
-      "stoplight": "red",
       "statuses": {
-        "New": 5,
-        "Grooming": 2
+        "To Do": 3,
+        "New": 3,
+        "Blocked": 1
       }
     },
     "Engineering - AI Ops": {
-      "ready": 0,
-      "total": 10,
-      "percent": 0.0,
-      "stoplight": "red",
+      "readiness": 28.6,
+      "total": 7,
       "statuses": {
-        "New": 9,
-        "Grooming": 1
+        "New": 5,
+        "To Do": 2
       }
     },
     "Data Science": {
-      "ready": 0,
-      "total": 1,
-      "percent": 0.0,
-      "stoplight": "red",
-      "statuses": {
-        "New": 1
-      }
+      "readiness": 0,
+      "total": 0,
+      "statuses": {}
     }
   },
   "backlog_health": {
     "Engineering - Platform": {
-      "groomed": 15,
-      "total": 15,
-      "percent": 100.0,
-      "stoplight": "green",
+      "health": 26.9,
+      "total": 26,
       "statuses": {
-        "New": 11,
+        "To Do": 15,
+        "New": 7,
         "Backlog": 4
       }
     },
     "Engineering - Product": {
-      "groomed": 42,
-      "total": 42,
-      "percent": 100.0,
-      "stoplight": "green",
+      "health": 87.8,
+      "total": 49,
       "statuses": {
-        "Grooming": 17,
-        "New": 25
+        "New": 25,
+        "Grooming": 18,
+        "Ready for Development": 3,
+        "To Do": 3
       }
     },
     "Design": {
-      "groomed": 7,
-      "total": 7,
-      "percent": 100.0,
-      "stoplight": "green",
+      "health": 41.2,
+      "total": 17,
       "statuses": {
+        "To Do": 10,
         "New": 5,
         "Grooming": 2
       }
     },
     "Engineering - AI Ops": {
-      "groomed": 15,
-      "total": 15,
-      "percent": 100.0,
-      "stoplight": "green",
+      "health": 46.2,
+      "total": 13,
       "statuses": {
-        "New": 9,
-        "Grooming": 1,
-        "Backlog": 5
+        "New": 5,
+        "Backlog": 5,
+        "To Do": 2,
+        "Grooming": 1
       }
     },
     "Data Science": {
-      "groomed": 1,
-      "total": 1,
-      "percent": 100.0,
-      "stoplight": "green",
+      "health": 7.7,
+      "total": 13,
       "statuses": {
-        "New": 1
+        "To Do": 11,
+        "New": 1,
+        "UAT Testing": 1
       }
     }
   },
   "dependencies": {
-    "CLP-1206": [
-      "CLP-1199"
-    ],
-    "CLP-1203": [
-      "CLP-1204",
-      "CLP-1215",
-      "CLP-1202",
-      "CLP-1215"
-    ],
-    "CLP-1202": [
-      "CLP-1201",
-      "CLP-1203"
-    ],
-    "CLP-1200": [
-      "CLP-1199"
-    ],
-    "CLP-1187": [
-      "CLP-1112"
-    ],
-    "CLP-1124": [
-      "CLP-1123"
-    ],
-    "CLP-1123": [
-      "CLP-1124"
-    ],
-    "CLP-1075": [
-      "CLP-895"
-    ],
-    "CLP-917": [
-      "CLP-916"
-    ],
-    "CLP-901": [
-      "CLP-883"
-    ],
-    "CLP-900": [
-      "CLP-882"
-    ],
-    "CLP-895": [
-      "CLP-1075"
-    ],
-    "CLP-893": [
-      "CLP-892"
-    ],
-    "CLP-892": [
-      "CLP-893",
-      "CLP-891"
-    ],
-    "CLP-891": [
-      "CLP-892",
-      "CLP-890"
-    ],
-    "CLP-883": [
-      "CLP-884",
-      "CLP-901",
-      "CLP-882"
-    ],
-    "CLP-881": [
-      "CLP-880"
-    ],
-    "CLP-880": [
-      "CLP-881"
-    ],
-    "CLP-861": [
-      "CLP-857"
-    ],
-    "CLP-857": [
-      "CLP-861"
-    ],
-    "CLP-851": [
-      "CLP-735"
-    ],
-    "CLP-664": [
-      "CLP-641"
-    ]
+    "CLP-1124": {
+      "summary": "BE: Org DTO cleanup",
+      "blocks": [
+        "CLP-1123"
+      ]
+    },
+    "CLP-1123": {
+      "summary": "FE: Org DTO cleanup",
+      "blocks": [
+        "CLP-1124"
+      ]
+    },
+    "CLP-476": {
+      "summary": "Gather the historical X data for time-range expansion. ",
+      "blocks": [
+        "TEP-1147"
+      ]
+    },
+    "CLP-52": {
+      "summary": "Community Grps refreshed minimally every 30 days",
+      "blocks": [
+        "CLP-14"
+      ]
+    }
+  },
+  "program_summary": {
+    "score": 29.7,
+    "stoplight": "red"
   }
 }
