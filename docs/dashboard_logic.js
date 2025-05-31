@@ -44,7 +44,7 @@ function countByTeamAndStatus(data, teams, statuses, filterFn) {
     const sprint = issue["Sprint"];
     if (!teams.includes(team)) return;
 
-    const isFutureSprint = sprint && !sprint.toLowerCase().includes("active");
+    const isFutureSprint = sprint && sprint.trim().length > 0;
     const include = filterFn(status, sprint, isFutureSprint);
 
     if (include) {
@@ -65,9 +65,62 @@ function getStoplightColor(percent) {
   return "red";
 }
 
+function renderSprintReadiness(data, teams, statuses) {
+  const container = document.getElementById("readinessContainer");
+  const result = countByTeamAndStatus(data, teams, statuses, (status, sprint, isFuture) =>
+    isFuture && !["Done", "Blocked", "Cancelled", "In Progress"].includes(status)
+  );
+
+  container.innerHTML = "";
+  Object.entries(result).forEach(([team, metrics]) => {
+    const percent = metrics.total ? Math.round((metrics.matched / metrics.total) * 100) : 0;
+    const color = getStoplightColor(percent);
+
+    const div = document.createElement("div");
+    div.className = "team-box";
+    div.innerHTML = `
+      <h3>${team}</h3>
+      <img src="blinking_${color}.gif" alt="${color}" />
+      <p>Readiness: ${percent}%</p>
+      <ul>${Object.entries(metrics.statusCounts).map(([s, c]) => `<li>${s}: ${c}</li>`).join("")}</ul>
+      <p>This reflects tickets in future sprints in “To Do” or “Ready for Development”.</p>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function renderBacklogHealth(data, teams, statuses) {
+  const container = document.getElementById("backlogContainer");
+  const result = countByTeamAndStatus(data, teams, statuses, (status, sprint, isFuture) =>
+    (!sprint || sprint.trim() === "") && !["Done", "Blocked", "Cancelled", "In Progress"].includes(status)
+  );
+
+  container.innerHTML = "";
+  Object.entries(result).forEach(([team, metrics]) => {
+    const percent = metrics.total ? Math.round((metrics.matched / metrics.total) * 100) : 0;
+    const color = getStoplightColor(percent);
+
+    const div = document.createElement("div");
+    div.className = "team-box";
+    div.innerHTML = `
+      <h3>${team}</h3>
+      <img src="blinking_${color}.gif" alt="${color}" />
+      <p>Backlog Health: ${percent}%</p>
+      <ul>${Object.entries(metrics.statusCounts).map(([s, c]) => `<li>${s}: ${c}</li>`).join("")}</ul>
+      <p>This reflects backlog story tickets in “New” or “Grooming”.</p>
+    `;
+    container.appendChild(div);
+  });
+}
+
 function renderProgramSummary(data, teams, readinessStatuses, backlogStatuses) {
-  const readiness = countByTeamAndStatus(data, teams, readinessStatuses, (status, sprint, isFuture) => isFuture && status !== "Done" && status !== "Blocked" && status !== "Cancelled" && status !== "In Progress");
-  const backlog = countByTeamAndStatus(data, teams, backlogStatuses, (status, sprint, isFuture) => (isFuture || !sprint) && status !== "Done" && status !== "Blocked" && status !== "Cancelled" && status !== "In Progress");
+  const readiness = countByTeamAndStatus(data, teams, readinessStatuses, (status, sprint, isFuture) =>
+    isFuture && !["Done", "Blocked", "Cancelled", "In Progress"].includes(status)
+  );
+
+  const backlog = countByTeamAndStatus(data, teams, backlogStatuses, (status, sprint, isFuture) =>
+    (!sprint || sprint.trim() === "") && !["Done", "Blocked", "Cancelled", "In Progress"].includes(status)
+  );
 
   const teamScores = teams.map(team => {
     const rTotal = readiness[team].total || 0;
@@ -79,36 +132,61 @@ function renderProgramSummary(data, teams, readinessStatuses, backlogStatuses) {
   });
 
   const programAvg = Math.round(teamScores.reduce((sum, t) => sum + t.avg, 0) / teamScores.length);
-  const programColor = getStoplightColor(programAvg);
-  const overallImg = document.getElementById("overallStoplight");
-  overallImg.src = `blinking_${programColor}.gif`;
-  overallImg.alt = `Overall is ${programColor}`;
+  const color = getStoplightColor(programAvg);
+  const img = document.getElementById("overallStoplight");
+  if (img) {
+    img.src = `blinking_${color}.gif`;
+    img.alt = `Program status is ${color}`;
+  }
 
   const tableBody = document.getElementById("summaryTableBody");
-  tableBody.innerHTML = "";
-
-  teamScores.forEach(({ team, avg }) => {
-    const row = document.createElement("tr");
-
-    const stoplightImg = document.createElement("img");
-    stoplightImg.src = `blinking_${getStoplightColor(avg)}.gif`;
-    stoplightImg.alt = `${getStoplightColor(avg)} stoplight`;
-    stoplightImg.width = 40;
-
-    row.innerHTML = `
-      <td>${team}</td>
-      <td>${stoplightImg.outerHTML}</td>
-      <td>${avg}%</td>
-      <td>${getProgramInterpretation(avg)}</td>
-    `;
-
-    tableBody.appendChild(row);
-  });
+  if (tableBody) {
+    tableBody.innerHTML = "";
+    teamScores.forEach(({ team, avg }) => {
+      const row = document.createElement("tr");
+      const stoplight = document.createElement("img");
+      stoplight.src = `blinking_${getStoplightColor(avg)}.gif`;
+      stoplight.width = 40;
+      stoplight.alt = `${getStoplightColor(avg)} stoplight`;
+      row.innerHTML = `
+        <td>${team}</td>
+        <td>${stoplight.outerHTML}</td>
+        <td>${avg}%</td>
+        <td>${getProgramInterpretation(avg)}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
 }
 
 function getProgramInterpretation(score) {
   if (score >= 80) return "On track — teams appear ready to execute.";
   if (score >= 50) return "Caution — backlog or readiness gaps emerging.";
   return "At risk — major prep or backlog issues present.";
+}
+
+function renderDependencies(data) {
+  const container = document.getElementById("dependencyTableContainer");
+  const filtered = data.filter(row => row["Inward issue link (Blocks)"] || row["Outward issue link (Blocks)"]);
+
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr><th>Ticket</th><th>Summary</th><th>Blocks</th><th>Is Blocked By</th><th>Component</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      ${filtered.map(row => `
+        <tr>
+          <td>${row["Issue key"]}</td>
+          <td>${row["Summary"]}</td>
+          <td>${row["Outward issue link (Blocks)"]}</td>
+          <td>${row["Inward issue link (Blocks)"]}</td>
+          <td>${row["Components"]}</td>
+          <td>${row["Status"]}</td>
+        </tr>
+      `).join("")}
+    </tbody>
+  `;
+  container.appendChild(table);
 }
 
