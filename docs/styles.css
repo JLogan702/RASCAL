@@ -1,88 +1,175 @@
+/* Global Styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f7fb;
-  margin: 0;
-  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-h1.centered {
+header {
+  background-color: #264653;
+  color: #fff;
+  padding: 1rem;
   text-align: center;
-  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.navbar {
-  padding: 10px;
-  background-color: #2f3e46;
-  color: white;
+nav {
+  background-color: #2a9d8f;
+  padding: 0.5rem;
+  text-align: center;
 }
 
-.navbar select {
-  padding: 8px;
-  font-size: 16px;
+nav select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
 }
 
-.explanation {
-  background-color: #ffffff;
-  border-left: 6px solid #007acc;
-  padding: 15px;
-  margin: 20px auto;
-  max-width: 900px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.readiness-section,
-.team-explanations,
-#dependencyTableContainer {
+main {
+  padding: 2rem;
   display: flex;
   flex-wrap: wrap;
+  gap: 2rem;
   justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
 }
 
-.team-box {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 15px;
-  width: 280px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+/* Team Cards */
+.team-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  width: 300px;
   text-align: center;
+  transition: transform 0.2s ease-in-out;
 }
 
-.team-box ul {
-  list-style: none;
-  padding-left: 0;
+.team-card:hover {
+  transform: scale(1.02);
 }
 
-.team-box li {
+.team-card h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: #264653;
+}
+
+.stoplight-img {
+  width: 50px;
+  height: auto;
+  margin: 0.75rem 0;
+}
+
+/* Breakdown List */
+.status-list h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #2a9d8f;
+}
+
+.status-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
   text-align: left;
 }
 
-footer {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 0.9em;
-  color: #666;
+.status-list li {
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
 }
 
-table {
-  border-collapse: collapse;
+/* Footnote */
+.footnote {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.75rem;
+}
+
+/* Explanation Highlight */
+.explanation-box {
+  background-color: #e9f5f2;
+  border-left: 6px solid #2a9d8f;
+  padding: 1rem;
+  margin: 2rem auto;
+  max-width: 800px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Page Title Styling */
+h1, h2 {
+  text-align: center;
+  color: #264653;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Print Styling */
+@media print {
+  nav, .footnote {
+    display: none;
+  }
+
+  .team-card {
+    page-break-inside: avoid;
+  }
+}
+
+.dependency-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f4f6ff;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.dependency-table {
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  background: #fff;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
 }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
+.dependency-table thead {
+  background-color: #e0e7ff;
+}
+
+.dependency-table th,
+.dependency-table td {
+  padding: 12px;
+  border: 1px solid #d0d7e5;
   text-align: left;
 }
 
-thead {
-  background-color: #007acc;
-  color: white;
+.dependency-table td:first-child {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.dependency-table tr:hover {
+  background-color: #f0f4ff;
+}
+
+.explanation-box {
+  background-color: #eef4fb;
+  padding: 1rem 1.5rem;
+  border-left: 5px solid #007acc;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+}
+
+.explanation-box strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
 }
 
