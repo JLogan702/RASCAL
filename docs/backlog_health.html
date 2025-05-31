@@ -5,7 +5,69 @@
   <title>Backlog Health – RASCAL</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="print.css" media="print" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #fffaf0;
+    }
+
+    .team-box img {
+      width: 40px;
+      height: auto;
+      margin: 8px 0;
+    }
+
+    .team-box {
+      animation: fadeIn 0.8s ease;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .centered {
+      text-align: center;
+    }
+
+    .explanation {
+      max-width: 950px;
+      margin: auto;
+      font-size: 1rem;
+    }
+
+    .status-table {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .status-table th, .status-table td {
+      padding: 4px 10px;
+      border: 1px solid #ccc;
+    }
+
+    .status-table th {
+      background-color: #fff1cc;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
   <div class="navbar">
@@ -20,19 +82,19 @@
   <h1 class="centered">Backlog Health Dashboard</h1>
 
   <p class="explanation">
-    Backlog Health reflects the percentage of story tickets in “New” or “Grooming” status that are assigned to future sprints. This identifies whether your backlog is refined and ready to feed future work. Tickets must not be in “Done”, “Blocked”, “Cancelled”, or “In Progress” to count.
+    Backlog Health measures how well each team is preparing future work. We count story tickets that are <span class="highlight">not in a current sprint</span> and are in <span class="highlight">"New"</span> or <span class="highlight">"Grooming"</span> statuses. All other statuses are shown below for full transparency.
   </p>
 
-  <div id="backlogContainer" class="readiness-section"></div>
+  <div id="backlogContainer" class="backlog-section"></div>
 
   <footer>
     <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Source: <a href="https://martinfowler.com/articles/product-backlog.html" target="_blank">Martin Fowler – Backlog Management</a></p>
+    <p>Based on <a href="https://www.atlassian.com/agile/backlogs" target="_blank">Atlassian Agile Guide: Managing Product Backlogs</a></p>
   </footer>
 
   <script src="dashboard_logic.js"></script>
   <script>
-    loadDashboard('backlog_health');
+    loadDashboard("backlog_health");
   </script>
 </body>
 </html>
