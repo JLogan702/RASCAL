@@ -2,44 +2,47 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import os
 
-# Load the data
+# Load the Jira data
 df = pd.read_csv("docs/jira_data.csv")
-df.columns = df.columns.str.strip()
 
-# Define teams (from Components column)
-teams = df["Components"].dropna().unique()
+# Define relevant fields
+component_column = "Components"
+key_column = "Issue key"
+summary_column = "Summary" if "Summary" in df.columns else None  # Fallback if not present
 
-dependency_data = []
+# Filter to only story-level rows with real dependencies
+df = df[df[component_column].notna()]
 
-for team in teams:
-    team_df = df[df["Components"] == team]
+# Combine all dependency columns into one long list
+link_columns = [col for col in df.columns if "issue link" in col.lower()]
+dependency_rows = []
 
-    # Clean up link fields and count dependencies
-    inward = team_df["Inward issue link (Blocks)"].dropna().tolist()
-    outward = team_df["Outward issue link (Blocks)"].dropna().tolist()
+for _, row in df.iterrows():
+    for col in link_columns:
+        linked_issue = row[col]
+        if pd.notna(linked_issue):
+            dependency_rows.append({
+                "Component": row[component_column],
+                "IssueKey": row[key_column],
+                "Summary": row[summary_column] if summary_column else "N/A",
+                "LinkedIssue": linked_issue,
+                "LinkType": col
+            })
 
-    total_dependencies = len(inward) + len(outward)
+# Convert to DataFrame
+dependency_df = pd.DataFrame(dependency_rows)
 
-    dependency_data.append({
-        "team": team,
-        "inward_count": len(inward),
-        "outward_count": len(outward),
-        "total_dependencies": total_dependencies
-    })
+# Group by team/component
+grouped = dependency_df.groupby("Component")
 
-# Sort by team name
-dependency_data = sorted(dependency_data, key=lambda x: x["team"])
-
-# Setup Jinja2
+# Render using Jinja2
 env = Environment(loader=FileSystemLoader("templates"))
 template = env.get_template("dependencies_template.html")
 
-# Render HTML
-output = template.render(dependency_data=dependency_data)
+output = template.render(groups=grouped)
 
-# Save to file
 with open("docs/dependencies.html", "w") as f:
     f.write(output)
 
-print("✅ dependencies.html generated.")
+print("✅ dependencies.html regenerated with summaries and keys.")
 

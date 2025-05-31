@@ -1,88 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dependency Summary</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
-  <style>
-    body {
-      background-color: #f4f8fb;
-      font-family: Arial, sans-serif;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 1rem;
-    }
-    .explanation {
-      text-align: center;
-      max-width: 900px;
-      margin: 1rem auto;
-      font-size: 1rem;
-    }
-    table {
-      margin: 1rem auto;
-      width: 80%;
-      border-collapse: collapse;
-      background-color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    th, td {
-      padding: 12px 16px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #005c99;
-      color: white;
-    }
-    tr:hover {
-      background-color: #eef6fb;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 2rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Dependencies Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+        h2 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #e9ecef; }
+        .section { margin-bottom: 40px; }
+    </style>
 </head>
 <body>
-  <h1>🚦 Team Dependencies Overview</h1>
+    <h1 style="text-align:center;">🧭 Dependency Tracker</h1>
+    <p style="text-align:center;">These tables list all known dependencies grouped by team, including issue keys, summaries, and link types.</p>
 
-  <div class="explanation">
-    This report summarizes the number of active cross-team dependencies found in Jira. <br>
-    <strong>Inward</strong> = this team is blocked by others. <br>
-    <strong>Outward</strong> = this team is blocking others. <br><br>
-    These insights help identify delivery risks and coordination needs. Lower dependency counts typically mean higher agility.
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Team</th>
-        <th>Inward Dependencies</th>
-        <th>Outward Dependencies</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in dependency_data %}
-      <tr>
-        <td>{{ item.team }}</td>
-        <td>{{ item.inward_count }}</td>
-        <td>{{ item.outward_count }}</td>
-        <td><strong>{{ item.total_dependencies }}</strong></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <footer>
-    Based on Jira field mapping of issue link type <code>Blocks</code>. See your Jira admin for link configuration. <br>
-    Source: <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe Dependency Best Practices</a>
-  </footer>
+    {% for team, issues in groups %}
+    <div class="section">
+        <h2>{{ team }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Issue Key</th>
+                    <th>Summary</th>
+                    <th>Linked Issue</th>
+                    <th>Link Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in issues.itertuples() %}
+                <tr>
+                    <td>{{ row.IssueKey }}</td>
+                    <td>{{ row.Summary }}</td>
+                    <td>{{ row.LinkedIssue }}</td>
+                    <td>{{ row.LinkType }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
 </body>
 </html>
 
