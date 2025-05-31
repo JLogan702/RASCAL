@@ -1,0 +1,88 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fb;
+  margin: 0;
+  padding: 0 20px;
+  color: #333;
+}
+
+h1.centered {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.navbar {
+  padding: 10px;
+  background-color: #2f3e46;
+  color: white;
+}
+
+.navbar select {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.explanation {
+  background-color: #ffffff;
+  border-left: 6px solid #007acc;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 900px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.readiness-section,
+.team-explanations,
+#dependencyTableContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.team-box {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  width: 280px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.team-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.team-box li {
+  text-align: left;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+thead {
+  background-color: #007acc;
+  color: white;
+}
+
