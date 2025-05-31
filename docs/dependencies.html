@@ -1,120 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Dependency Tracker – RASCAL</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
-  <style>
-    body {
-      background-color: #f5f5ff;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      background: #dde4fa;
-      padding: 10px;
-      z-index: 999;
-    }
-
-    .centered {
-      text-align: center;
-    }
-
-    .explanation {
-      max-width: 950px;
-      margin: auto;
-      padding: 10px;
-      font-size: 1rem;
-    }
-
-    .dependency-box {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 20px auto;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-      animation: fadeIn 0.6s ease;
-      width: 92%;
-    }
-
-    .dependency-box h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    th, td {
-      padding: 8px;
-      border: 1px solid #ccc;
-    }
-
-    th {
-      background-color: #e3ebff;
-    }
-
-    .ticket-id {
-      font-weight: bold;
-      color: #2c3e50;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.85em;
-      color: #666;
-    }
-
-    @media print {
-      .navbar, select {
-        display: none;
-      }
-      body {
-        background: #fff;
-        color: #000;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>RASCAL – Dependencies</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="dashboard_logic.js" defer></script>
 </head>
 <body>
-  <div class="navbar">
+  <header>
+    <h1>Dependency Tracker</h1>
     <select onchange="location = this.value;">
+      <option value="dependencies.html" selected>Dependencies</option>
       <option value="index.html">Program Summary</option>
       <option value="sprint_readiness.html">Sprint Readiness</option>
       <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html" selected>Dependency Tracker</option>
     </select>
-  </div>
+  </header>
 
-  <h1 class="centered">Dependency Tracker</h1>
+  <main>
+    <section class="explanation-box">
+      <strong>This page helps identify critical cross-team or external blockers.</strong>
+      <p>
+        Dependency tickets are pulled directly from Jira's "Blocks" link fields. These reflect unresolved inbound or outbound blockers. 
+        Story tickets with one or more blocking links are listed below. 
+        We include ticket summaries to help assess risk and understand impact.
+      </p>
+      <p>
+        Proactively resolving these items can unblock value delivery and prevent sprint spillover.
+      </p>
+    </section>
 
-  <p class="explanation">
-    This page highlights tickets that <strong>block other work</strong> or are <strong>blocked by other tickets</strong>. It pulls Jira's "Blocks" fields and displays ticket keys and summaries for transparency. Reviewing this report helps avoid delivery surprises and sequence risks.
-  </p>
+    <section class="dependency-container">
+      <h2>Active Dependencies</h2>
+      <div id="dependency-summary"></div>
+    </section>
 
-  <div id="dependencyContainer"></div>
-
-  <footer>
-    <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Based on guidance from <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe Program Board</a> & <a href="https://www.atlassian.com/blog/jira-software/jira-dependency-management" target="_blank">Atlassian Dependency Management</a></p>
-  </footer>
-
-  <script src="dashboard_logic.js"></script>
-  <script>
-    loadDashboard("dependencies");
-  </script>
+    <footer>
+      <p>Data source: Jira Cloud, using “Blocks” fields. Industry guidance: SAFe 6.0 – Dependency Management, Scrum.org.</p>
+    </footer>
+  </main>
 </body>
 </html>
 

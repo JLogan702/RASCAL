@@ -2,97 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Program Summary – RASCAL</title>
+  <title>RASCAL – Program Summary</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="print.css" media="print" />
-  <style>
-    body {
-      background-color: #f5f9fc;
-    }
-
-    .overall-status {
-      text-align: center;
-      margin: 40px 0;
-    }
-
-    .overall-status img {
-      width: 60px;
-      height: auto;
-    }
-
-    .callout {
-      background-color: #ffffff;
-      border-left: 8px solid #007acc;
-      padding: 25px;
-      margin: 30px auto;
-      max-width: 900px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    .callout strong {
-      font-size: 18px;
-      display: block;
-      margin-bottom: 12px;
-    }
-
-    footer {
-      margin-top: 50px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #666;
-    }
-
-    .centered {
-      text-align: center;
-      font-size: 28px;
-      margin-top: 25px;
-    }
-  </style>
+  <script src="dashboard_logic.js" defer></script>
 </head>
 <body>
-  <div class="navbar">
+  <header>
+    <h1>Program Summary Dashboard</h1>
     <select onchange="location = this.value;">
       <option value="index.html">Program Summary</option>
       <option value="sprint_readiness.html">Sprint Readiness</option>
       <option value="backlog_health.html">Backlog Health</option>
-      <option value="dependencies.html">Dependency Tracker</option>
+      <option value="dependencies.html">Dependencies</option>
     </select>
-  </div>
+  </header>
 
-  <h1 class="centered">Program Summary</h1>
+  <main>
+    <section class="explanation-box">
+      <strong>These dashboards are designed to inform—not punish.</strong> Our goal is to provide objective visibility into the state of story ticket flow across the program. This summary aggregates the status of upcoming sprints and backlog grooming across all teams. Use this as a conversation starter and improvement guide.
 
-  <div class="callout">
-    <strong>How Overall Program Health Is Calculated</strong>
-    This dashboard blends Sprint Readiness and Backlog Health scores for each team, then averages those scores to determine overall health. Only story tickets assigned to future sprints or backlog are considered, excluding anything in “Done,” “In Progress,” “Blocked,” or “Cancelled.”
+      <p>
+        The <strong>Overall Program Health</strong> shown below reflects Sprint Readiness and Backlog Health calculations, following guidance from the 
+        <a href="https://www.scrum.org/resources/scrum-guide" target="_blank">Scrum Guide</a>,
+        <a href="https://agilemanifesto.org/" target="_blank">Agile Manifesto</a>, and industry reports like 
+        <a href="https://stateofagile.com/" target="_blank">State of Agile</a> (VersionOne, 2023).
+        Specifically:
+      </p>
+      <ul>
+        <li><strong>Sprint Readiness</strong> = % of story tickets in future sprints marked as “To Do” or “Ready for Development”</li>
+        <li><strong>Backlog Health</strong> = % of all non-done stories in grooming statuses assigned to future sprints</li>
+        <li>Each team has separate calculations displayed on their dedicated tabs</li>
+      </ul>
+    </section>
 
-    <br><br>
-    - <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org</a> defines Sprint Backlog as “the set of Product Backlog items selected for the Sprint…with a plan for delivering the product Increment and realizing the Sprint Goal.”
-    <br>
-    - <a href="https://www.agilealliance.org/glossary/backlog/" target="_blank">Agile Alliance</a> notes that backlog refinement “ensures stories are well understood and actionable before they are selected for sprint planning.”
-    <br>
-    - <a href="https://martinfowler.com/articles/product-backlog.html" target="_blank">Martin Fowler</a> states that a healthy backlog is “continuously updated and triaged to keep it ready for delivery.”
-    <br><br>
-    <strong style="font-size: 18px; color: #444;">
-      These dashboards are designed to help teams reflect and adjust — not to penalize. All data is real, traceable, and aligned to industry best practices.
-    </strong>
-  </div>
+    <section class="stoplight-section">
+      <h2>Overall Program Status</h2>
+      <div class="stoplight-summary">
+        <img id="program-stoplight" class="stoplight-img" src="blinking_yellow.gif" alt="Program Status Stoplight" />
+      </div>
+    </section>
 
-  <div class="overall-status">
-    <h2>Overall Program Health</h2>
-    <img id="overallStoplight" src="blinking_red.gif" alt="Overall Stoplight" />
-  </div>
+    <section class="explanation-box">
+      <p>
+        This light reflects an aggregate readiness + backlog health score using weighted logic across all five teams.
+        It's designed to help leadership quickly assess if upcoming work is ready, at risk, or blocked from the start.
+      </p>
+      <p>
+        See Sprint Readiness and Backlog Health pages for individual team metrics, issue counts by status, and explanation of values.
+      </p>
+    </section>
 
-  <footer>
-    <p>Last Updated: <span id="lastUpdated"></span></p>
-    <p>Powered by real Jira data. Sources: Scrum.org, Agile Alliance, Martin Fowler.</p>
-  </footer>
-
-  <script src="dashboard_logic.js"></script>
-  <script>
-    loadDashboard('index');
-  </script>
+    <footer>
+      <p>Based on Agile best practices and program standards. Source: Scrum.org, State of Agile Report, Agile Manifesto.</p>
+    </footer>
+  </main>
 </body>
 </html>
 

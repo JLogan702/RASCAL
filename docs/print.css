@@ -1,38 +1,70 @@
-body {
-  background: #fff;
-  color: #000;
-  font-family: Georgia, serif;
-  font-size: 12pt;
-  margin: 1in;
-}
-
-.navbar,
+/* Hide navigation and animations for print */
+nav,
+.stoplight-img,
 footer,
 canvas,
-img[src*="blinking_"] {
+select,
+#refresh-button {
   display: none !important;
 }
 
-.explanation,
-.readiness-section,
-.team-explanations,
-#dependencyTableContainer,
-h1.centered {
-  page-break-inside: avoid;
+/* Simplify the layout */
+body {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-family: 'Georgia', serif !important;
+  margin: 1in;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+main {
+  display: block !important;
+  padding: 0 !important;
 }
 
-th, td {
-  border: 1px solid #000;
-  padding: 4px;
+/* Team Cards should stack and expand */
+.team-card {
+  width: 100% !important;
+  margin-bottom: 1.5rem !important;
+  page-break-inside: avoid !important;
+  box-shadow: none !important;
+  border: 1px solid #ccc !important;
+  padding: 1rem !important;
 }
 
-h1, h2, h3 {
-  color: black;
-  font-family: Georgia, serif;
+/* Header formatting for clarity */
+header {
+  background-color: #fff !important;
+  color: #000 !important;
+  font-size: 1.75rem !important;
+  border-bottom: 2px solid #000 !important;
+  padding: 0 0 1rem 0 !important;
+  text-align: left !important;
+}
+
+/* Section Titles */
+h1, h2 {
+  color: #000 !important;
+  text-align: left !important;
+  font-weight: bold;
+}
+
+/* Make lists print nicely */
+.status-list ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
+
+.status-list li {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Remove colors for printing economy */
+.explanation-box {
+  border: none !important;
+  background-color: transparent !important;
+  color: #000000 !important;
+  padding: 0 !important;
+  margin: 1rem 0;
 }
 
