@@ -1,122 +1,58 @@
 {
   "sprint_readiness": {
-    "Engineering - Platform": {
-      "readiness": 0.0,
-      "total": 3,
-      "statuses": {
-        "Backlog": 3
+    "teams": {
+      "Engineering - Product": {
+        "ready": 3,
+        "total": 10,
+        "status_counts": {
+          "To Do": 2,
+          "Ready for Development": 1,
+          "In Progress": 4,
+          "Blocked": 3
+        }
+      },
+      "Engineering - Platform": {
+        "ready": 0,
+        "total": 5,
+        "status_counts": {
+          "To Do": 0,
+          "Ready for Development": 0,
+          "In Progress": 2,
+          "Blocked": 3
+        }
       }
-    },
-    "Engineering - Product": {
-      "readiness": 15.6,
-      "total": 32,
-      "statuses": {
-        "New": 14,
-        "Grooming": 13,
-        "Ready for Development": 3,
-        "To Do": 2
-      }
-    },
-    "Design": {
-      "readiness": 42.9,
-      "total": 7,
-      "statuses": {
-        "To Do": 3,
-        "New": 3,
-        "Blocked": 1
-      }
-    },
-    "Engineering - AI Ops": {
-      "readiness": 28.6,
-      "total": 7,
-      "statuses": {
-        "New": 5,
-        "To Do": 2
-      }
-    },
-    "Data Science": {
-      "readiness": 0,
-      "total": 0,
-      "statuses": {}
     }
   },
   "backlog_health": {
-    "Engineering - Platform": {
-      "health": 26.9,
-      "total": 26,
-      "statuses": {
-        "To Do": 15,
-        "New": 7,
-        "Backlog": 4
-      }
-    },
-    "Engineering - Product": {
-      "health": 87.8,
-      "total": 49,
-      "statuses": {
-        "New": 25,
-        "Grooming": 18,
-        "Ready for Development": 3,
-        "To Do": 3
-      }
-    },
-    "Design": {
-      "health": 41.2,
-      "total": 17,
-      "statuses": {
-        "To Do": 10,
-        "New": 5,
-        "Grooming": 2
-      }
-    },
-    "Engineering - AI Ops": {
-      "health": 46.2,
-      "total": 13,
-      "statuses": {
-        "New": 5,
-        "Backlog": 5,
-        "To Do": 2,
-        "Grooming": 1
-      }
-    },
-    "Data Science": {
-      "health": 7.7,
-      "total": 13,
-      "statuses": {
-        "To Do": 11,
-        "New": 1,
-        "UAT Testing": 1
+    "teams": {
+      "Engineering - Product": {
+        "grooming": 5,
+        "new": 10,
+        "total": 20
+      },
+      "Engineering - Platform": {
+        "grooming": 0,
+        "new": 2,
+        "total": 6
       }
     }
   },
   "dependencies": {
-    "CLP-1124": {
-      "summary": "BE: Org DTO cleanup",
+    "TICKET-123": {
+      "summary": "This ticket blocks work on TICKET-456",
       "blocks": [
-        "CLP-1123"
+        "TICKET-456"
       ]
     },
-    "CLP-1123": {
-      "summary": "FE: Org DTO cleanup",
+    "TICKET-789": {
+      "summary": "Blocked by TICKET-001",
       "blocks": [
-        "CLP-1124"
-      ]
-    },
-    "CLP-476": {
-      "summary": "Gather the historical X data for time-range expansion. ",
-      "blocks": [
-        "TEP-1147"
-      ]
-    },
-    "CLP-52": {
-      "summary": "Community Grps refreshed minimally every 30 days",
-      "blocks": [
-        "CLP-14"
+        "TICKET-001"
       ]
     }
   },
   "program_summary": {
-    "score": 29.7,
-    "stoplight": "red"
+    "overall_status": "Yellow",
+    "last_updated": "2025-05-31T20:02:34.558743Z"
   }
 }
