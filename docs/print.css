@@ -1,0 +1,38 @@
+body {
+  background: #fff;
+  color: #000;
+  font-family: Georgia, serif;
+  font-size: 12pt;
+  margin: 1in;
+}
+
+.navbar,
+footer,
+canvas,
+img[src*="blinking_"] {
+  display: none !important;
+}
+
+.explanation,
+.readiness-section,
+.team-explanations,
+#dependencyTableContainer,
+h1.centered {
+  page-break-inside: avoid;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #000;
+  padding: 4px;
+}
+
+h1, h2, h3 {
+  color: black;
+  font-family: Georgia, serif;
+}
+
