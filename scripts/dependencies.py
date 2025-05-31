@@ -1,66 +1,45 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from collections import defaultdict
+import os
 
-# Load the Jira data
+# Load the data
 df = pd.read_csv("docs/jira_data.csv")
+df.columns = df.columns.str.strip()
 
-# Ensure no NaNs
-inward_blocks = df['Inward issue link (Blocks)'].fillna('')
-outward_blocks = df['Outward issue link (Blocks)'].fillna('')
+# Define teams (from Components column)
+teams = df["Components"].dropna().unique()
 
-# Parse team from component
-team_map = {
-    "Engineering - Product": "Product",
-    "Engineering - Platform": "Platform",
-    "Engineering - AI Ops": "AI Ops",
-    "Design": "Design",
-    "Data Science": "Data Science"
-}
+dependency_data = []
 
-df['Team'] = df['Components'].map(team_map)
+for team in teams:
+    team_df = df[df["Components"] == team]
 
-# Aggregate dependencies by team
-dependencies = defaultdict(lambda: {"blocks": 0, "blocked_by": 0})
+    # Clean up link fields and count dependencies
+    inward = team_df["Inward issue link (Blocks)"].dropna().tolist()
+    outward = team_df["Outward issue link (Blocks)"].dropna().tolist()
 
-for _, row in df.iterrows():
-    team = row['Team']
-    if not team:
-        continue
+    total_dependencies = len(inward) + len(outward)
 
-    if row['Inward issue link (Blocks)']:
-        dependencies[team]['blocked_by'] += 1
-    if row['Outward issue link (Blocks)']:
-        dependencies[team]['blocks'] += 1
-
-# Calculate totals and stoplight color
-summary = []
-for team, data in dependencies.items():
-    total = data['blocks'] + data['blocked_by']
-    if total == 0:
-        color = "green"
-    elif data['blocked_by'] > data['blocks']:
-        color = "red"
-    else:
-        color = "yellow"
-    summary.append({
+    dependency_data.append({
         "team": team,
-        "blocks": data['blocks'],
-        "blocked_by": data['blocked_by'],
-        "total": total,
-        "color": color
+        "inward_count": len(inward),
+        "outward_count": len(outward),
+        "total_dependencies": total_dependencies
     })
 
 # Sort by team name
-summary.sort(key=lambda x: x['team'])
+dependency_data = sorted(dependency_data, key=lambda x: x["team"])
 
-# Render HTML
+# Setup Jinja2
 env = Environment(loader=FileSystemLoader("templates"))
 template = env.get_template("dependencies_template.html")
-output = template.render(summary=summary)
 
+# Render HTML
+output = template.render(dependency_data=dependency_data)
+
+# Save to file
 with open("docs/dependencies.html", "w") as f:
     f.write(output)
 
-print("✅ dependencies.html updated")
+print("✅ dependencies.html generated.")
 

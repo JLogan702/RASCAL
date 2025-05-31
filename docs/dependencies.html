@@ -1,110 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dependencies by Team</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
-            margin: 2em;
-        }
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-        }
-        select {
-            margin: 10px auto;
-            display: block;
-            padding: 10px;
-            font-size: 16px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #3498db;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dependency Summary</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <style>
+    body {
+      background-color: #f4f8fb;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .explanation {
+      text-align: center;
+      max-width: 900px;
+      margin: 1rem auto;
+      font-size: 1rem;
+    }
+    table {
+      margin: 1rem auto;
+      width: 80%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #005c99;
+      color: white;
+    }
+    tr:hover {
+      background-color: #eef6fb;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 <body>
-    <h2>Dependencies by Team</h2>
-    <label for="teamFilter">Filter by Team:</label>
-    <select id="teamFilter" onchange="filterTable()">
-        <option value="all">All Teams</option>
-    </select>
+  <h1>🚦 Team Dependencies Overview</h1>
 
-    <table id="dependencyTable">
-        <thead>
-            <tr>
-                <th>Team</th>
-                <th>Issue Key</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be injected by JS -->
-        </tbody>
-    </table>
+  <div class="explanation">
+    This report summarizes the number of active cross-team dependencies found in Jira. <br>
+    <strong>Inward</strong> = this team is blocked by others. <br>
+    <strong>Outward</strong> = this team is blocking others. <br><br>
+    These insights help identify delivery risks and coordination needs. Lower dependency counts typically mean higher agility.
+  </div>
 
-    <script>
-        const dependencies = [
-            { team: "Engineering - Product", key: "BGP-101", summary: "Depends on UI refresh" },
-            { team: "Engineering - Platform", key: "BGP-102", summary: "Blocked by API limits" },
-            { team: "Data Science", key: "BGP-103", summary: "Dependent on data pipeline" },
-            { team: "Design", key: "BGP-104", summary: "Waiting for wireframes" },
-            { team: "Engineering - AI Ops", key: "BGP-105", summary: "Blocked by ML model approval" },
-            { team: "Data Science", key: "BGP-106", summary: "Requires DB schema change" }
-        ];
+  <table>
+    <thead>
+      <tr>
+        <th>Team</th>
+        <th>Inward Dependencies</th>
+        <th>Outward Dependencies</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td>Data Science</td>
+        <td>1</td>
+        <td>0</td>
+        <td><strong>1</strong></td>
+      </tr>
+      
+      <tr>
+        <td>Design</td>
+        <td>0</td>
+        <td>0</td>
+        <td><strong>0</strong></td>
+      </tr>
+      
+      <tr>
+        <td>Engineering - AI Ops</td>
+        <td>0</td>
+        <td>0</td>
+        <td><strong>0</strong></td>
+      </tr>
+      
+      <tr>
+        <td>Engineering - Platform</td>
+        <td>0</td>
+        <td>0</td>
+        <td><strong>0</strong></td>
+      </tr>
+      
+      <tr>
+        <td>Engineering - Product</td>
+        <td>1</td>
+        <td>1</td>
+        <td><strong>2</strong></td>
+      </tr>
+      
+    </tbody>
+  </table>
 
-        const tableBody = document.querySelector("#dependencyTable tbody");
-        const filterDropdown = document.getElementById("teamFilter");
-        const uniqueTeams = [...new Set(dependencies.map(dep => dep.team))];
-
-        uniqueTeams.forEach(team => {
-            const option = document.createElement("option");
-            option.value = team;
-            option.textContent = team;
-            filterDropdown.appendChild(option);
-        });
-
-        function renderTable(filterTeam = "all") {
-            tableBody.innerHTML = "";
-            dependencies.forEach(dep => {
-                if (filterTeam === "all" || dep.team === filterTeam) {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${dep.team}</td>
-                        <td>${dep.key}</td>
-                        <td>${dep.summary}</td>
-                    `;
-                    tableBody.appendChild(row);
-                }
-            });
-        }
-
-        function filterTable() {
-            const selectedTeam = filterDropdown.value;
-            renderTable(selectedTeam);
-        }
-
-        renderTable(); // Initialize
-    </script>
+  <footer>
+    Based on Jira field mapping of issue link type <code>Blocks</code>. See your Jira admin for link configuration. <br>
+    Source: <a href="https://www.scaledagileframework.com/program-board/" target="_blank">SAFe Dependency Best Practices</a>
+  </footer>
 </body>
 </html>
-
