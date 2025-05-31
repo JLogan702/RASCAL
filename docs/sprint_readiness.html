@@ -1,1 +1,39 @@
-<!-- Placeholder for sprint_readiness.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sprint Readiness – RASCAL</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <select onchange="location = this.value;">
+      <option value="index.html">Program Summary</option>
+      <option value="sprint_readiness.html" selected>Sprint Readiness</option>
+      <option value="backlog_health.html">Backlog Health</option>
+      <option value="dependencies.html">Dependency Tracker</option>
+    </select>
+  </div>
+
+  <h1 class="centered">Sprint Readiness Dashboard</h1>
+
+  <p class="explanation">
+    Sprint Readiness measures the percentage of story tickets assigned to a future sprint that are in “To Do” or “Ready for Development” status. This helps identify whether upcoming sprints are truly actionable. Tickets must be assigned to a future sprint and not be in Done, Blocked, or In Progress to be considered.
+  </p>
+
+  <div id="readinessContainer" class="readiness-section"></div>
+
+  <footer>
+    <p>Last Updated: <span id="lastUpdated"></span></p>
+    <p>Source: <a href="https://www.scrum.org/resources/what-sprint-backlog" target="_blank">Scrum.org – Sprint Backlog Readiness</a></p>
+  </footer>
+
+  <script src="dashboard_logic.js"></script>
+  <script>
+    loadDashboard('sprint_readiness');
+  </script>
+</body>
+</html>
+
