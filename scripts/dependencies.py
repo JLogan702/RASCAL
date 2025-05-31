@@ -2,47 +2,58 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import os
 
-# Load the Jira data
+# Load Jira CSV data
 df = pd.read_csv("docs/jira_data.csv")
 
-# Define relevant fields
-component_column = "Components"
-key_column = "Issue key"
-summary_column = "Summary" if "Summary" in df.columns else None  # Fallback if not present
+# Filter only story tickets that have actual blocking dependencies
+df = df[df["Issue Type"] == "Story"]
+df = df[df["Inward issue link (Blocks)"].notnull() | df["Outward issue link (Blocks)"].notnull()]
 
-# Filter to only story-level rows with real dependencies
-df = df[df[component_column].notna()]
-
-# Combine all dependency columns into one long list
-link_columns = [col for col in df.columns if "issue link" in col.lower()]
-dependency_rows = []
-
+# Create dependency rows
+records = []
 for _, row in df.iterrows():
-    for col in link_columns:
-        linked_issue = row[col]
-        if pd.notna(linked_issue):
-            dependency_rows.append({
-                "Component": row[component_column],
-                "IssueKey": row[key_column],
-                "Summary": row[summary_column] if summary_column else "N/A",
-                "LinkedIssue": linked_issue,
-                "LinkType": col
+    issue_key = row["Issue key"]
+    summary = row.get("Summary", "N/A")
+    team = row.get("Components", "Unassigned")
+
+    if pd.notnull(row.get("Inward issue link (Blocks)")):
+        linked_keys = str(row["Inward issue link (Blocks)"]).split(", ")
+        for lk in linked_keys:
+            records.append({
+                "team": team,
+                "issue_key": issue_key,
+                "summary": summary,
+                "linked_issue": lk.strip(),
+                "link_type": "Blocked by"
             })
 
-# Convert to DataFrame
-dependency_df = pd.DataFrame(dependency_rows)
+    if pd.notnull(row.get("Outward issue link (Blocks)")):
+        linked_keys = str(row["Outward issue link (Blocks)"]).split(", ")
+        for lk in linked_keys:
+            records.append({
+                "team": team,
+                "issue_key": issue_key,
+                "summary": summary,
+                "linked_issue": lk.strip(),
+                "link_type": "Blocking"
+            })
 
-# Group by team/component
-grouped = dependency_df.groupby("Component")
+# Group by team
+dependencies_by_team = {}
+for record in records:
+    team = record["team"]
+    dependencies_by_team.setdefault(team, []).append(record)
 
-# Render using Jinja2
+# Jinja2 setup
 env = Environment(loader=FileSystemLoader("templates"))
 template = env.get_template("dependencies_template.html")
 
-output = template.render(groups=grouped)
+# Render HTML
+output = template.render(dependencies_by_team=dependencies_by_team)
 
+# Save output
 with open("docs/dependencies.html", "w") as f:
     f.write(output)
 
-print("✅ dependencies.html regenerated with summaries and keys.")
+print("✅ dependencies.html generated.")
 
