@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dependencies Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+  <div class="dropdown">
+    <button class="dropbtn">Navigate</button>
+    <div class="dropdown-content">
+      <a href="index.html">Program Summary</a>
+      <a href="sprint_readiness.html">Sprint Readiness</a>
+      <a href="backlog_health.html">Backlog Health</a>
+      <a href="dependencies.html">Dependencies</a>
+    </div>
+  </div>
+
+  <h1 class="center">Dependency Overview</h1>
+
+  <p class="explanation">This report highlights current Jira story ticket dependencies across teams. Story tickets are flagged if they are blocking another story or are being blocked. High counts of unresolved blockers may signal risks to delivery timelines. Use this dashboard to initiate unblocking discussions and address cross-team delivery concerns early.</p>
+
+  <div class="flex-container">
+    {% for team in summary %}
+    <div class="team-box">
+      <h2>{{ team.team }}</h2>
+      <img src="blinking_{{ team.color }}.gif" class="stoplight" alt="{{ team.color }} stoplight">
+      <ul>
+        <li><strong>Blocking:</strong> {{ team.blocks }}</li>
+        <li><strong>Blocked by:</strong> {{ team.blocked_by }}</li>
+        <li><strong>Total Dependencies:</strong> {{ team.total }}</li>
+      </ul>
+      <p class="team-explanation">
+        This count reflects how many story tickets in this team are either causing or experiencing delivery blocks. A high number of 'Blocked by' issues may warrant escalation.
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <footer>
+    <p class="footnote">Data derived from Jira fields: <em>Inward issue link (Blocks)</em> and <em>Outward issue link (Blocks)</em>. Report follows Agile dependency tracking best practices. See <a href="https://www.atlassian.com/agile/project-management/identify-dependencies">Atlassian: Managing Agile Dependencies</a>.</p>
+  </footer>
+</body>
+</html>
+
