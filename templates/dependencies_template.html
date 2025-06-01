@@ -2,46 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dependencies Dashboard</title>
+    <title>Dependency Tracker</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
-        h2 { color: #333; }
-        table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #e9ecef; }
-        .section { margin-bottom: 40px; }
+        body {
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .team-section {
+            margin-bottom: 3rem;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            border: 1px solid #d6d6d6;
+            text-align: left;
+        }
+        th {
+            background-color: #e8eef3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align:center;">🧭 Dependency Tracker</h1>
-    <p style="text-align:center;">These tables list all known dependencies grouped by team, including issue keys, summaries, and link types.</p>
+    <h1>🧩 Dependency Tracker</h1>
+    <p style="text-align:center; max-width: 800px; margin: 0 auto 2rem;">
+        This section highlights story tickets currently blocked by other work items. Use this to proactively identify blockers and reduce delivery risk. Only story tickets with valid blocking links are shown.
+    </p>
 
-    {% for team, issues in groups %}
-    <div class="section">
+    {% for team, issues in dependencies.items() %}
+    <div class="team-section">
         <h2>{{ team }}</h2>
+        {% if issues %}
         <table>
             <thead>
                 <tr>
                     <th>Issue Key</th>
                     <th>Summary</th>
-                    <th>Linked Issue</th>
-                    <th>Link Type</th>
+                    <th>Blocked By</th>
                 </tr>
             </thead>
             <tbody>
-                {% for row in issues.itertuples() %}
+                {% for issue in issues %}
                 <tr>
-                    <td>{{ row.IssueKey }}</td>
-                    <td>{{ row.Summary }}</td>
-                    <td>{{ row.LinkedIssue }}</td>
-                    <td>{{ row.LinkType }}</td>
+                    <td>{{ issue.key }}</td>
+                    <td>{{ issue.summary }}</td>
+                    <td>{{ issue.blocked_by }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <p>No blocking dependencies found for this team.</p>
+        {% endif %}
     </div>
     {% endfor %}
+
+    <div class="footer">
+        Source: Jira data via RASCAL Dashboard – last updated automatically.
+    </div>
 </body>
 </html>
 
